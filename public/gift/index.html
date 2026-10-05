@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root { --cream:#f7f0e4; --ink:#3d2c26; --coral:#d95f43; --teal:#2e8b7f; --mustard:#e8a93e; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Nunito',sans-serif; background:var(--cream); color:var(--ink); padding:28px 44px; font-size:10.5pt; line-height:1.4; }
+  h1,h2,h3 { font-family:'Fraunces',serif; }
+  .sticker { display:inline-block; font-weight:800; text-transform:uppercase; font-size:8pt; letter-spacing:.04em; padding:4px 12px; border-radius:999px; border:2px solid var(--ink); box-shadow:2px 2px 0 var(--ink); transform:rotate(-1.5deg); }
+  .squiggle { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='8' viewBox='0 0 60 8'%3E%3Cpath d='M0 4 Q 7.5 0, 15 4 T 30 4 T 45 4 T 60 4' fill='none' stroke='%23d95f43' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:repeat-x; background-position:0 100%; background-size:60px 8px; padding-bottom:8px; }
+  header { text-align:center; margin-bottom:14px; }
+  header h1 { font-size:23pt; font-weight:900; margin:10px 0 4px; }
+  header p { color:#6b564d; font-size:10pt; max-width:600px; margin:0 auto; }
+  .keeps { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:6px; }
+  .keep { background:#fdfaf4; border:2px dashed rgba(61,44,38,.4); border-radius:16px; padding:12px 16px; display:flex; gap:12px; align-items:flex-start; }
+  .keep .emoji { font-size:18pt; line-height:1; }
+  .keep h3 { font-size:11.5pt; font-weight:900; margin-bottom:2px; }
+  .keep p { font-size:9pt; color:#5b4a42; }
+  .big { background:var(--mustard); border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink); border-radius:16px; padding:12px 20px; text-align:center; font-weight:800; margin:16px 0 12px; font-size:11pt; }
+  .later { display:flex; gap:16px; align-items:center; background:#fdfaf4; border:2px dashed rgba(61,44,38,.4); border-radius:16px; padding:12px 18px; }
+  .later .txt { flex:1; font-size:9.5pt; color:#5b4a42; }
+  .later h3 { font-size:12pt; margin-bottom:3px; color:var(--ink); }
+  .later a { display:inline-block; font-weight:800; font-size:9pt; text-transform:uppercase; letter-spacing:.04em; padding:8px 16px; border-radius:999px; border:2px solid var(--ink); box-shadow:2px 2px 0 var(--ink); background:var(--teal); color:#fff8ef; text-decoration:none; white-space:nowrap; }
+  footer { text-align:center; margin-top:14px; font-size:8.5pt; color:#6b564d; }
+  .es { font-family:'Fraunces',serif; font-style:italic; color:var(--coral); }
+</style>
+</head>
+<body>
+  <header>
+    <span class="sticker" style="background:var(--mustard);">Made by Bren 💕</span>
+    <h1><span class="squiggle">Yours to keep. No catch.</span></h1>
+    <p>Whether or not we ever work together again — all of this is yours, free, forever.
+    <span class="es">Todo esto es tuyo, lo sigamos haciendo juntos o no.</span></p>
+  </header>
+
+  <div class="keeps">
+    <div class="keep"><div class="emoji">🌐</div><div><h3>Your complete website</h3><p>Option A or B — designed, built, and launched on the internet. Done, not a trial version.</p></div></div>
+    <div class="keep"><div class="emoji">🇦🇷</div><div><h3>Both languages, always</h3><p>English y español with one tap — because your people speak both.</p></div></div>
+    <div class="keep"><div class="emoji">📸</div><div><h3>Your work, loaded in</h3><p>Your real products, photos, and prices — swapped anytime you change your mind.</p></div></div>
+    <div class="keep"><div class="emoji">🏷️</div><div><h3>Free hosting, forever</h3><p>No hosting bills, no subscription to keep the lights on. The site just stays up.</p></div></div>
+    <div class="keep"><div class="emoji">🗓️</div><div><h3>Your first 30 days of help</h3><p>Updates, swaps, questions, fixes — free while you settle in.</p></div></div>
+    <div class="keep"><div class="emoji">🔑</div><div><h3>You own everything</h3><p>Your domain in YOUR name, your content, your site. Walk away anytime and take it all with you.</p></div></div>
+  </div>
+
+  <div class="big">The only thing that ever costs you a dollar: your domain — about $12–35/year, registered in your own name. That's it. 🫶🏼</div>
+
+  <div class="later">
+    <div class="txt">
+      <h3>If you ever want more — totally optional</h3>
+      After your free month, a small care plan keeps the site fresh without you lifting a finger: new products added, seasonal refreshes, tech handled. Month-to-month, cancel anytime, first month free either way. There's zero pressure — the site works forever without it.
+    </div>
+    <a href="../">See the demos</a>
+  </div>
+
+  <footer>Built with love by Manny · for Brenda — Springville, Utah</footer>
+</body>
+</html>

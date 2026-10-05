@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root { --cream:#f7f0e4; --ink:#3d2c26; --coral:#d95f43; --teal:#2e8b7f; --mustard:#e8a93e; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Nunito',sans-serif; background:var(--cream); color:var(--ink); padding:24px 40px; font-size:10.5pt; line-height:1.4; }
+  h1,h2 { font-family:'Fraunces',serif; }
+  .sticker { display:inline-block; font-weight:800; text-transform:uppercase; font-size:8pt; letter-spacing:.04em; padding:4px 12px; border-radius:999px; border:2px solid var(--ink); box-shadow:2px 2px 0 var(--ink); transform:rotate(-1.5deg); }
+  .squiggle { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='8' viewBox='0 0 60 8'%3E%3Cpath d='M0 4 Q 7.5 0, 15 4 T 30 4 T 45 4 T 60 4' fill='none' stroke='%23d95f43' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:repeat-x; background-position:0 100%; background-size:60px 8px; padding-bottom:8px; }
+  header { text-align:center; margin-bottom:12px; }
+  header h1 { font-size:22pt; font-weight:900; margin:8px 0 4px; }
+  header p { color:#6b564d; font-size:10pt; }
+  .ladder { display:flex; gap:10px; justify-content:center; margin:10px 0 12px; }
+  .rung { flex:1; max-width:200px; background:#fdfaf4; border:2px dashed rgba(61,44,38,.4); border-radius:14px; padding:8px 12px; text-align:center; font-size:9pt; }
+  .rung .when { font-weight:800; font-size:8.5pt; text-transform:uppercase; color:#6b564d; }
+  .rung .what { font-family:'Fraunces',serif; font-weight:900; font-size:12pt; margin-top:2px; }
+  .options { display:flex; gap:18px; }
+  .option { flex:1; border:2px dashed rgba(61,44,38,.4); border-radius:18px; background:#fdfaf4; padding:12px 16px; }
+  .option h2 { font-size:13.5pt; font-weight:900; margin:8px 0 2px; }
+  .option .sub { font-size:9pt; color:#6b564d; margin-bottom:10px; }
+  table { width:100%; border-collapse:collapse; font-size:9.5pt; }
+  td { padding:5px 0; border-bottom:1px dashed rgba(61,44,38,.18); }
+  td:last-child { text-align:right; font-weight:800; white-space:nowrap; }
+  tr:last-child td { border-bottom:none; }
+  .giftrow td { color:var(--teal); font-weight:800; }
+  .does { margin-top:8px; padding-top:6px; border-top:2px dashed rgba(61,44,38,.25); }
+  .does h3 { font-family:'Fraunces',serif; font-size:10.5pt; margin-bottom:4px; }
+  .does ul { list-style:none; font-size:9pt; color:#5b4a42; }
+  .does li { margin-bottom:3px; padding-left:18px; position:relative; }
+  .does li::before { content:'✿'; position:absolute; left:0; }
+  .fine { margin-top:12px; display:flex; gap:18px; }
+  .fine .card { flex:1; background:#fdfaf4; border:2px dashed rgba(61,44,38,.4); border-radius:16px; padding:10px 14px; font-size:9pt; color:#5b4a42; }
+  .fine h3 { font-family:'Fraunces',serif; font-size:11pt; margin-bottom:5px; color:var(--ink); }
+  .warm { text-align:center; margin-top:12px; background:var(--mustard); border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink); border-radius:16px; padding:8px 20px; font-weight:700; font-size:10pt; }
+  footer { text-align:center; margin-top:10px; font-size:8.5pt; color:#6b564d; }
+  .es { font-family:'Fraunces',serif; font-style:italic; color:var(--coral); }
+</style>
+</head>
+<body>
+  <header>
+    <span class="sticker" style="background:var(--mustard);">Made by Bren 💕</span>
+    <h1><span class="squiggle">Your website, your pace.</span></h1>
+    <p>The site itself is a gift — built, bilingual, and launched for you. This page is only about what happens after, so it stays fresh while you keep crafting. <span class="es">Sin compromiso.</span></p>
+  </header>
+
+  <div class="ladder">
+    <div class="rung"><div class="when">Days 1–30</div><div class="what">Free 🎉</div><div>Live, launched, yours</div></div>
+    <div class="rung"><div class="when">Days 31–90</div><div class="what">Growth</div><div>Half price while we help you grow</div></div>
+    <div class="rung"><div class="when">Day 91 +</div><div class="what">Friend rate</div><div>Month-to-month, cancel anytime</div></div>
+  </div>
+
+  <div class="options">
+    <div class="option">
+      <span class="sticker" style="background:var(--teal); color:#fff8ef;">Option B · Showcase</span>
+      <h2>Gallery that feeds your DMs</h2>
+      <div class="sub">Your work, your story, your market dates — one pretty link. Orders still happen in your Instagram DMs, like today.</div>
+      <table>
+        <tr class="giftrow"><td>Build + launch</td><td>Gifted · $0</td></tr>
+        <tr><td>Days 1–30</td><td>$0</td></tr>
+        <tr><td>Days 31–90</td><td>$12/mo</td></tr>
+        <tr><td>Then — friend rate</td><td>$25/mo</td></tr>
+      </table>
+      <div class="does">
+        <h3>What your plan does for you</h3>
+        <ul>
+          <li>Text a photo of your newest pieces — they're on the site within days</li>
+          <li>Seasonal refreshes (Halloween → holidays → Valentine's) so it never looks stale</li>
+          <li>Your farmers-market dates always current</li>
+          <li>All the tech handled — you never touch settings, hosting, or updates</li>
+          <li>Both languages, always</li>
+        </ul>
+      </div>
+    </div>
+    <div class="option">
+      <span class="sticker" style="background:var(--coral); color:#fff8ef;">Option A · The Shop</span>
+      <h2>A real store that sells while you sleep</h2>
+      <div class="sub">Cart, checkout, personalization notes, order notifications. You make things; the site takes orders.</div>
+      <table>
+        <tr class="giftrow"><td>Build + launch</td><td>Gifted · $0</td></tr>
+        <tr><td>Days 1–30</td><td>$0</td></tr>
+        <tr><td>Days 31–90</td><td>$20/mo</td></tr>
+        <tr><td>Then — friend rate</td><td>$40/mo</td></tr>
+      </table>
+      <div class="does">
+        <h3>What your plan does for you — everything in B, plus</h3>
+        <ul>
+          <li>Checkout takes card payments 24/7 — orders while you sleep</li>
+          <li>An email lands in your inbox with every order, personalization notes included</li>
+          <li>A simple view of what's selling, so you know what to make more of</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="fine">
+    <div class="card">
+      <h3>Always included</h3>
+      New products, photos & price swaps (2 rounds/mo) · market dates · all tech & hosting · both languages · link-in-bio & QR booth card during your growth months.
+    </div>
+    <div class="card">
+      <h3>Yours, at cost, no markup</h3>
+      Your domain (~$12–35/yr, registered in <em>your</em> name) · Stripe's standard ~3% per sale, only on Option A. You keep everything else.
+    </div>
+  </div>
+
+  <div class="warm">Start with B and grow into A whenever you're ready — most makers do. 🫶🏼</div>
+
+  <footer>Built with love by Manny · month-to-month · cancel anytime · prices locked for your first year</footer>
+</body>
+</html>

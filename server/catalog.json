@@ -1,0 +1,119 @@
+[
+  {
+    "id": "fishy-friend",
+    "photo": "/photos/post-0908-seahorse.jpg",
+    "price": 10,
+    "category": "keychains",
+    "personalized": true,
+    "name": { "en": "Little Fishy Friend Keychain", "es": "Llavero \"Amiguito Pescado\"" },
+    "blurb": {
+      "en": "A little fishy friend, made extra special with YOUR name. Colorful pony beads + a whole lot of love — perfect for backpacks, keys, or a little whimsy wherever you go.",
+      "es": "Un amiguito pescado, hecho extra especial con TU nombre. Cuentas de colores + muchísimo amor — perfecto para mochilas, llaves, o un toque de magia donde vayas."
+    },
+    "igPost": "https://www.instagram.com/madeby_bren/p/DdCZi2iIv68/"
+  },
+  {
+    "id": "called-to-serve",
+    "photo": "/photos/post-0920-beads.jpg",
+    "price": 12,
+    "category": "keychains",
+    "personalized": true,
+    "name": { "en": "\"Called to Serve\" Missionary Keychain", "es": "Llavero Misionero \"Called to Serve\"" },
+    "blurb": {
+      "en": "A special little gift for those answering the call to serve. Personalized with each missionary's name — a sweet keepsake to carry wherever their service takes them.",
+      "es": "Un regalito especial para quienes responden al llamado de servir. Personalizado con el nombre de cada misionero — un dulce recuerdo para llevar a donde los lleve su servicio."
+    },
+    "igPost": "https://www.instagram.com/madeby_bren/p/DdhK9o2wW-M/"
+  },
+  {
+    "id": "nurse-charm",
+    "photo": "/photos/post-0917-jewelry.jpg",
+    "price": 11,
+    "category": "bag-charms",
+    "personalized": false,
+    "name": { "en": "Nurse Bag Charm", "es": "Dije de Enfermera para Bolso" },
+    "blurb": {
+      "en": "A little charm for the ones who care for everyone else. Perfect for a work bag, badge bag, or as a sweet gift for your favorite nurse — because nurses deserve a little extra joy, too.",
+      "es": "Un dijito para quienes cuidan a todos los demás. Perfecto para el bolso del trabajo o como un dulce regalo para tu enfermera favorita — porque las enfermeras también merecen un poquito de alegría extra."
+    },
+    "igPost": "https://www.instagram.com/madeby_bren/p/DdZwgaOo_Xm/"
+  },
+  {
+    "id": "good-day-bookmark",
+    "photo": "/photos/post-0918-readabook.jpg",
+    "price": 6,
+    "category": "bookmarks",
+    "personalized": false,
+    "name": { "en": "\"Good Day to Read a Book\" Bookmark", "es": "Marcador \"Un Buen Día para Leer\"" },
+    "blurb": {
+      "en": "Cute, bright & full of charm — because your book deserves a bookmark that's just as fun as the story.",
+      "es": "Lindo, brillante y lleno de encanto — porque tu libro merece un marcador tan divertido como la historia."
+    },
+    "igPost": "https://www.instagram.com/madeby_bren/p/DdbnQlWIM3v/"
+  },
+  {
+    "id": "fall-bookmark",
+    "photo": "/photos/post-0922-pumpkin.jpg",
+    "price": 6,
+    "category": "bookmarks",
+    "personalized": false,
+    "name": { "en": "Cozy Fall Bookmark", "es": "Marcador de Otoño" },
+    "blurb": {
+      "en": "Fall reading just got a little cuter. Ready to make your next cozy read even more fun — cafecito optional but recommended.",
+      "es": "La lectura de otoño se puso más linda. Listo para hacer tu próxima lectura acogedora aún más divertida — cafecito opcional pero recomendado."
+    },
+    "igPost": "https://www.instagram.com/madeby_bren/p/DdmrJbbo1uf/"
+  },
+  {
+    "id": "cafecito-bookmark",
+    "photo": "/photos/post-0916-icecream.jpg",
+    "price": 6,
+    "category": "bookmarks",
+    "personalized": false,
+    "name": { "en": "Cafecito & Conchita Bookmark", "es": "Marcador Cafecito y Conchita" },
+    "blurb": {
+      "en": "A little cafecito, a sweet churro, and a conchita… but make it a bookmark. A celebration of the flavors that feel like home.",
+      "es": "Un cafecito, un churro dulce y una conchita… pero en marcador. Una celebración de los sabores que saben a hogar."
+    },
+    "igPost": "https://www.instagram.com/madeby_bren/p/DdXt2yFNCax/"
+  },
+  {
+    "id": "holiday-set",
+    "photo": "/photos/post-0921-christmas.jpg",
+    "price": 8,
+    "category": "seasonal",
+    "personalized": false,
+    "name": { "en": "Holiday Bookmark Set", "es": "Set de Marcadores Navideños" },
+    "blurb": {
+      "en": "Stocking-stuffer sized joy. A festive little set for the readers on your list — handmade, bright, and ready to gift.",
+      "es": "Alegría en tamaño perfecto para la media navideña. Un set festivo para los lectores de tu lista — hecho a mano, brillante y listo para regalar."
+    },
+    "igPost": "https://www.instagram.com/madeby_bren/p/DdkAuhyoiyh/"
+  },
+  {
+    "id": "hair-clip-set",
+    "photo": "/photos/post-0911-hairclips.jpg",
+    "price": 9,
+    "category": "hair-clips",
+    "personalized": false,
+    "name": { "en": "Checker & Lace Hair Clip Set", "es": "Set de Clips a Cuadros y Encaje" },
+    "blurb": {
+      "en": "The bookmark from your votes…'s crafty cousin. Playful checkerboard + lace clips that make any ponytail a little more fun.",
+      "es": "El primo craftero del marcador que eligieron con sus votos. Clips a cuadros y encaje que hacen cualquier colita un poquito más divertida."
+    },
+    "igPost": "https://www.instagram.com/madeby_bren/p/DdKvp7WNCuZ/"
+  },
+  {
+    "id": "spooky-charm",
+    "photo": "/photos/reel-0904-beware.jpg",
+    "price": 7,
+    "category": "seasonal",
+    "personalized": false,
+    "name": { "en": "Spooky Season Charm", "es": "Dije de Temporada Spooky" },
+    "blurb": {
+      "en": "Beware… of how cute this is. A tiny haunted friend for your keys, bag, or spooky-season reading stack.",
+      "es": "Cuidado… con lo lindo que es. Un amiguito embrujado para tus llaves, tu bolso o tu pila de lecturas de spooky season."
+    },
+    "igPost": "https://www.instagram.com/madeby_bren/reel/Dc4L1yUol9R/"
+  }
+]
