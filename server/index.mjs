@@ -2,14 +2,52 @@
 // Serves the built frontend and creates Stripe Checkout Sessions.
 // If STRIPE_SECRET_KEY is not set, runs in MOCK mode: the checkout flow works
 // end to end but redirects to a local preview page instead of Stripe.
+//
+// Digital products: orders that are all digital skip shipping entirely, and
+// buyers get their download link(s) on the order-success page. The success
+// page calls /api/order-lookup with the Stripe session id to fetch them.
 
 import express from 'express'
-import { readFileSync, existsSync } from 'node:fs'
+import { readFileSync, existsSync, statSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const catalog = JSON.parse(readFileSync(join(__dirname, 'catalog.json'), 'utf8'))
+const CATALOG_PATH = process.env.CATALOG_PATH || join(__dirname, 'catalog.json')
+
+// Live catalog: re-read when the file on disk changes (CoreOps portal writes
+// it via a mounted volume). On a parse error keep serving the last good
+// catalog — the shop never goes down because of a bad write.
+let catalogCache = null
+let catalogStamp = null
+const loadCatalog = () => {
+  const data = JSON.parse(readFileSync(CATALOG_PATH, 'utf8'))
+  if (!Array.isArray(data)) throw new Error('catalog is not an array')
+  return data
+}
+const getCatalog = () => {
+  try {
+    const st = statSync(CATALOG_PATH)
+    const stamp = `${st.mtimeMs}:${st.size}`
+    if (!catalogCache || stamp !== catalogStamp) {
+      catalogCache = loadCatalog()
+      catalogStamp = stamp
+      console.log(`catalog loaded: ${catalogCache.length} products (${stamp})`)
+    }
+  } catch (err) {
+    if (catalogCache) {
+      console.error('catalog reload failed, serving last good copy:', err.message)
+    } else {
+      throw err // never booted with a good catalog — fail loudly
+    }
+  }
+  return catalogCache
+}
+// Boot fails loudly if the catalog is missing/invalid (e.g. forgotten volume mount).
+getCatalog()
+
+// What the storefront renders: hidden products are not public.
+const visibleCatalog = () => getCatalog().filter((p) => !p.hidden)
 
 const PORT = process.env.PORT || 4100
 const STRIPE_KEY = process.env.STRIPE_SECRET_KEY || ''
@@ -26,45 +64,66 @@ if (!MOCK) {
 const app = express()
 app.use(express.json())
 
+const digitalDownloads = (items) =>
+  items
+    .filter((p) => p.digital && p.download)
+    .map((p) => ({ name: p.name.en, download: p.download }))
+
 app.post('/api/checkout', async (req, res) => {
   try {
     const { lines, delivery, notes } = req.body || {}
     if (!Array.isArray(lines) || lines.length === 0) {
       return res.status(400).json({ error: 'empty cart' })
     }
-    if (!['ship', 'pickup'].includes(delivery)) {
+    if (!['ship', 'pickup', 'digital'].includes(delivery)) {
       return res.status(400).json({ error: 'invalid delivery method' })
     }
 
     // Server-side catalog is the price source of truth — never trust client prices.
     const lineItems = []
+    const purchased = []
     const personalization = []
     for (const line of lines) {
-      const product = catalog.find((p) => p.id === line.id)
+      const product = getCatalog().find((p) => p.id === line.id)
       const qty = Math.max(1, Math.min(99, Number(line.qty) || 1))
-      if (!product) return res.status(400).json({ error: `unknown product: ${line.id}` })
+      if (!product || product.hidden) return res.status(400).json({ error: `unknown product: ${line.id}` })
+
+      let variant = null
+      if (product.variants) {
+        variant = product.variants.find((v) => v.id === line.variant)
+        if (!variant) return res.status(400).json({ error: `unknown variant for ${line.id}` })
+      }
+
+      purchased.push(product)
       lineItems.push({
         quantity: qty,
         price_data: {
           currency: 'usd',
-          unit_amount: Math.round(product.price * 100),
-          product_data: { name: product.name.en },
+          unit_amount: Math.round((variant?.price ?? product.price) * 100),
+          product_data: {
+            name: variant ? `${product.name.en} — ${variant.label.en.split('—')[0].trim()}` : product.name.en,
+            metadata: { productId: product.id, variant: variant?.id || '' },
+          },
         },
       })
-      const note = (notes?.[product.id] || '').toString().trim().slice(0, 200)
+      const note = (notes?.[variant ? `${product.id}|${variant.id}` : product.id] || '').toString().trim().slice(0, 200)
       if (product.personalized && note) {
         personalization.push(`${product.name.en}: ${note}`)
       }
     }
 
+    const allDigital = purchased.every((p) => p.digital)
+    const effectiveDelivery = allDigital ? 'digital' : delivery
+
     if (MOCK) {
       const total = lineItems.reduce((s, li) => s + li.price_data.unit_amount * li.quantity, 0)
-      const shipping = delivery === 'pickup' ? 0 : FLAT_SHIPPING_CENTS
+      const shipping = effectiveDelivery === 'ship' ? FLAT_SHIPPING_CENTS : 0
       const params = new URLSearchParams({
         total: ((total + shipping) / 100).toFixed(2),
-        delivery,
+        delivery: effectiveDelivery,
         items: String(lineItems.reduce((s, li) => s + li.quantity, 0)),
       })
+      if (purchased.some((p) => p.digital)) params.set('digital', '1')
       return res.json({ url: `${BASE_URL}/checkout-preview?${params}` })
     }
 
@@ -73,10 +132,11 @@ app.post('/api/checkout', async (req, res) => {
       line_items: lineItems,
       success_url: `${BASE_URL}/order-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${BASE_URL}/store`,
+      // All-digital orders: no address, no shipping — buyer downloads on the success page.
       shipping_address_collection:
-        delivery === 'ship' ? { allowed_countries: ['US'] } : undefined,
+        effectiveDelivery === 'ship' ? { allowed_countries: ['US'] } : undefined,
       shipping_options:
-        delivery === 'pickup'
+        effectiveDelivery === 'pickup'
           ? [
               {
                 shipping_rate_data: {
@@ -86,25 +146,27 @@ app.post('/api/checkout', async (req, res) => {
                 },
               },
             ]
-          : [
-              {
-                shipping_rate_data: {
-                  type: 'fixed_amount',
-                  fixed_amount: { amount: FLAT_SHIPPING_CENTS, currency: 'usd' },
-                  display_name: 'Flat-rate shipping (US)',
-                  delivery_estimate: {
-                    minimum: { unit: 'business_day', value: 3 },
-                    maximum: { unit: 'business_day', value: 7 },
+          : effectiveDelivery === 'ship'
+            ? [
+                {
+                  shipping_rate_data: {
+                    type: 'fixed_amount',
+                    fixed_amount: { amount: FLAT_SHIPPING_CENTS, currency: 'usd' },
+                    display_name: 'Flat-rate shipping (US)',
+                    delivery_estimate: {
+                      minimum: { unit: 'business_day', value: 3 },
+                      maximum: { unit: 'business_day', value: 7 },
+                    },
                   },
                 },
-              },
-            ],
+              ]
+            : undefined,
       metadata: {
-        delivery,
+        delivery: effectiveDelivery,
         personalization: personalization.join(' | ').slice(0, 500),
       },
       payment_intent_data: {
-        metadata: { delivery, personalization: personalization.join(' | ').slice(0, 500) },
+        metadata: { delivery: effectiveDelivery, personalization: personalization.join(' | ').slice(0, 500) },
       },
     })
     res.json({ url: session.url })
@@ -114,8 +176,46 @@ app.post('/api/checkout', async (req, res) => {
   }
 })
 
+// The success page calls this with the Checkout Session id to get download
+// links for any digital products in the order.
+app.get('/api/order-lookup', async (req, res) => {
+  try {
+    if (MOCK) {
+      // Demo mode: show every digital product so the flow can be previewed.
+      return res.json({ downloads: digitalDownloads(getCatalog()) })
+    }
+    const sessionId = String(req.query.session_id || '')
+    if (!sessionId.startsWith('cs_')) return res.status(400).json({ error: 'bad session id' })
+
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ['line_items.data.price.product'],
+    })
+    if (session.payment_status !== 'paid') return res.status(402).json({ error: 'not paid' })
+
+    const ids = (session.line_items?.data || [])
+      .map((li) => li.price?.product?.metadata?.productId)
+      .filter(Boolean)
+    const downloads = digitalDownloads(getCatalog().filter((p) => ids.includes(p.id)))
+    res.json({ downloads })
+  } catch (err) {
+    console.error('order-lookup error:', err)
+    res.status(500).json({ error: 'lookup failed' })
+  }
+})
+
+// The storefront's live product list — exactly what the site renders.
+// Hidden products are not public and never leave this process.
+app.get('/api/catalog', (_req, res) => {
+  try {
+    res.json(visibleCatalog())
+  } catch (err) {
+    console.error('catalog error:', err)
+    res.status(500).json({ error: 'catalog unavailable' })
+  }
+})
+
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, mode: MOCK ? 'mock' : 'stripe', products: catalog.length })
+  res.json({ ok: true, mode: MOCK ? 'mock' : 'stripe', products: getCatalog().length })
 })
 
 // Serve the built frontend

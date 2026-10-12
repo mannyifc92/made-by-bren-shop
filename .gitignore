@@ -4,3 +4,5 @@ server/node_modules/
 server/public/
 *.log
 .DS_Store
+.env
+catalog.json

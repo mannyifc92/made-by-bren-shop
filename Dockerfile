@@ -8,7 +8,6 @@ WORKDIR /srv
 COPY server/package.json ./
 COPY server/node_modules ./node_modules
 COPY server/index.mjs ./
-COPY src/data/catalog.json ./
 COPY dist ./public
 
 ENV PORT=4100
@@ -17,4 +16,8 @@ EXPOSE 4100
 #   STRIPE_SECRET_KEY  — Brenda's Stripe secret key (test first, live at launch)
 #   BASE_URL           — https://shopmadebybren.com
 #   FLAT_SHIPPING_CENTS — Brenda's flat shipping amount (default 500 = $5.00)
+#   CATALOG_PATH       — catalog.json location (default /srv/catalog.json)
+# The catalog is NOT baked into the image. Mount it:
+#   -v /home/mannyrdh/made-by-bren-shop/catalog.json:/srv/catalog.json
+# The server re-reads it on change and refuses to boot without a valid file.
 CMD ["node", "index.mjs"]

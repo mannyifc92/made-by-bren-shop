@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
-import { PRODUCTS, CATEGORY_LABELS, formatPrice, asset, IS_SHOP, type Category, type Product } from '../data/products'
+import { useProducts, CATEGORY_LABELS, formatPrice, asset, IS_SHOP, type Category, type Product } from '../data/products'
 import { useI18n, LangToggle } from '../i18n'
 
 interface CartLine {
@@ -19,15 +19,16 @@ export default function Store() {
   const [working, setWorking] = useState(false)
   const [checkoutError, setCheckoutError] = useState(false)
   const [justAdded, setJustAdded] = useState<string | null>(null)
+  const products = useProducts()
 
   const visible = useMemo(
-    () => (filter === 'all' ? PRODUCTS : PRODUCTS.filter((p) => p.category === filter)),
-    [filter],
+    () => (filter === 'all' ? products : products.filter((p) => p.category === filter)),
+    [filter, products],
   )
 
   const cartCount = cart.reduce((n, l) => n + l.qty, 0)
   const cartTotal = cart.reduce((sum, l) => {
-    const p = PRODUCTS.find((p) => p.id === l.id)
+    const p = products.find((p) => p.id === l.id)
     return sum + (p ? p.price * l.qty : 0)
   }, 0)
 
@@ -168,6 +169,11 @@ export default function Store() {
                     <span className="font-black text-lg whitespace-nowrap">{formatPrice(p.price)}</span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-2 leading-relaxed flex-1">{p.blurb[lang]}</p>
+                  {p.stockNote && (
+                    <p className="text-xs font-bold text-secondary-foreground bg-secondary rounded-lg px-2 py-1 mt-2 inline-block self-start">
+                      {p.stockNote[lang]}
+                    </p>
+                  )}
                   {p.personalized && (
                     <p className="text-xs text-muted-foreground italic mt-2">{t('store.personalized.hint')}</p>
                   )}
@@ -225,7 +231,7 @@ export default function Store() {
             <div className="flex-1 overflow-y-auto p-6 space-y-5">
               {cart.length === 0 && <p className="text-muted-foreground">{t('store.cart.empty')}</p>}
               {cart.map((l) => {
-                const p = PRODUCTS.find((p) => p.id === l.id)!
+                const p = products.find((p) => p.id === l.id)!
                 return (
                   <div key={l.id} className="flex gap-4 items-center">
                     <img src={asset(p.photo)} alt="" className="w-16 h-16 rounded-xl object-cover border-2 border-foreground/60" />
@@ -284,12 +290,12 @@ export default function Store() {
               ))}
             </div>
 
-            {cart.some((l) => PRODUCTS.find((p) => p.id === l.id)?.personalized) && (
+            {cart.some((l) => products.find((p) => p.id === l.id)?.personalized) && (
               <div className="mb-6">
                 {cart
-                  .filter((l) => PRODUCTS.find((p) => p.id === l.id)?.personalized)
+                  .filter((l) => products.find((p) => p.id === l.id)?.personalized)
                   .map((l) => {
-                    const p = PRODUCTS.find((p) => p.id === l.id)!
+                    const p = products.find((p) => p.id === l.id)!
                     return (
                       <div key={l.id} className="mb-3">
                         <label className="block text-sm font-bold mb-1">

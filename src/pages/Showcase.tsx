@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import { PRODUCTS, asset } from '../data/products'
+import { useProducts, asset } from '../data/products'
 import { useI18n, LangToggle } from '../i18n'
 
 const IG = 'https://www.instagram.com/madeby_bren/'
@@ -12,6 +12,7 @@ const HERO_COLLAGE = [
 
 export default function Showcase() {
   const { t, lang } = useI18n()
+  const products = useProducts()
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -54,7 +55,7 @@ export default function Showcase() {
           </h2>
           <p className="text-center text-muted-foreground mt-3 mb-10">{t('show.gallery.hint')}</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {PRODUCTS.filter((p) => p.igPost).map((p, i) => (
+            {products.filter((p) => p.igPost).map((p, i) => (
               <a
                 key={p.id}
                 href={p.igPost}

@@ -1,16 +1,309 @@
 [
   {
-    "id": "fishy-friend",
-    "photo": "/photos/post-0908-seahorse.jpg",
-    "price": 10,
+    "id": "pony-bead-book",
+    "photo": "/photos/book-cover.jpg",
+    "gallery": [
+      "/photos/book-cover.jpg",
+      "/photos/book-whats-inside.jpg",
+      "/photos/book-supplies.jpg",
+      "/photos/book-sample-pumpkin.jpg",
+      "/photos/book-you-did-it.jpg"
+    ],
+    "price": 9.99,
+    "compareAt": 12.99,
+    "category": "digital",
+    "digital": true,
+    "download": "/downloads/boo-tiful-halloween-bead-book-x7k29q.pdf",
+    "personalized": false,
+    "name": {
+      "en": "Pony Bead Book — Halloween Edition",
+      "es": "Libro de Pony Beads — Edición Halloween"
+    },
+    "blurb": {
+      "en": "7 spooky-cute patterns you can bead yourself — step-by-step instructions, bead counts, and a supply list. Instant PDF download!",
+      "es": "7 diseños spooky-cute para hacer vos misma — instrucciones paso a paso, cantidad de cuentas y lista de materiales. ¡Descarga instantánea en PDF!"
+    },
+    "details": {
+      "en": "🎃 Get ready for some spooky-cute crafting fun! 👻\n\nOur Made by Bren Halloween Pony Bead Book is filled with 7 adorable Halloween designs you can create yourself! Whether you're new to pony beads or already love crafting, this digital book makes it easy to bring your own little creations to life — with step-by-step instructions, colorful patterns, and fun ways to make each design your own. Perfect for a cozy afternoon, a Halloween craft night, or some creative family fun!\n\n👻 What's inside — 7 patterns:\n🎃 Pumpkin · 🐈‍⬛ Black Cat · 👻 Little Boo · 🧪 Bubbling Cauldron · 🍬 Candy Corn · 🍭 Happy Candy Corn · 👻 Big Boo\n\n💕 What makes this book special:\n• Beginner-friendly designs\n• Easy-to-follow, step-by-step instructions\n• Bead counts for every pattern\n• A supply list to help you get started\n• Fun \"Make It Yours!\" ideas to add your own creative touch\n\nPlease note 💕 this is a digital download (PDF pattern book) — no physical book, beads, or supplies are shipped. You'll need your own supplies to complete the designs. For personal use only — please don't copy, share, or resell the book.",
+      "es": "🎃 ¡Preparate para una diversión de manualidades spooky-cute! 👻\n\n¡Nuestro Libro de Pony Beads de Halloween de Made by Bren está lleno de 7 diseños adorables que podés crear vos misma! Seas nueva en el mundo de las cuentas o ya te encante hacer manualidades, este libro digital te facilita darle vida a tus propias creaciones — con instrucciones paso a paso, patrones coloridos y formas divertidas de hacer cada diseño bien tuyo. ¡Perfecto para una tarde acogedora, una noche de manualidades de Halloween o un rato creativo en familia!\n\n👻 Qué incluye — 7 patrones:\n🎃 Calabaza · 🐈‍⬛ Gato Negro · 👻 Little Boo · 🧪 Caldero Burbujeante · 🍬 Candy Corn · 🍭 Candy Corn Feliz · 👻 Big Boo\n\n💕 Qué hace especial a este libro:\n• Diseños ideales para principiantes\n• Instrucciones fáciles de seguir, paso a paso\n• Cantidad de cuentas para cada patrón\n• Lista de materiales para empezar\n• Ideas divertidas de \"¡Hacelo Tuyo!\" para tu toque creativo\n\nTené en cuenta 💕 esta es una descarga digital (libro de patrones en PDF) — no se envía ningún libro físico, cuentas ni materiales. Vas a necesitar tus propios materiales para completar los diseños. Solo para uso personal — por favor no copies, compartas ni revendas el libro."
+    }
+  },
+  {
+    "id": "spooky-beads",
+    "photo": "/photos/spooky-beads-lineup.jpg",
+    "gallery": [
+      "/photos/spooky-beads-lineup.jpg",
+      "/photos/spooky-beads-frankenstein.jpg",
+      "/photos/spooky-beads-blackcat.jpg",
+      "/photos/spooky-beads-jack.jpg",
+      "/photos/spooky-beads-potions.jpg",
+      "/photos/spooky-beads-witchhat.jpg",
+      "/photos/spooky-beads-group2.jpg"
+    ],
+    "price": 5,
+    "category": "keychains",
+    "personalized": false,
+    "name": {
+      "en": "Spooky Little Beads | Halloween Pony Bead Keychains",
+      "es": "Spooky Little Beads | Llaveros de Halloween"
+    },
+    "blurb": {
+      "en": "Pick your favorite from 13 spooky-cute designs — each one handmade bead by bead. Price depends on the design you choose! 🎃",
+      "es": "Elige tu favorito entre 13 diseños spooky-cute — cada uno hecho a mano cuenta por cuenta. ¡El precio depende del diseño que elijas! 🎃"
+    },
+    "details": {
+      "en": "Thirteen spooky-cute pony bead keychains, each one handmade bead by bead! 🎃👻\n\nPick your favorite from the numbered photo — each design has its own price based on its size and detail, and the price updates automatically when you choose.\n\nPerfect for backpacks, keys, purses, or gifting to your favorite spooky-season lover 💕",
+      "es": "¡Trece llaveros spooky-cute hechos a mano cuenta por cuenta! 🎃👻\n\nElige tu favorito de la foto numerada — cada diseño tiene su propio precio según su tamaño y detalle, y el precio se actualiza automáticamente al elegir.\n\nPerfectos para mochilas, llaves, bolsos o para regalar 💕"
+    },
+    "variants": [
+      {
+        "id": "d1",
+        "price": 7,
+        "label": {
+          "en": "#1 Witch's Cauldron",
+          "es": "#1 Witch's Cauldron"
+        }
+      },
+      {
+        "id": "d2",
+        "price": 5,
+        "label": {
+          "en": "#2 Candy Corn",
+          "es": "#2 Candy Corn"
+        }
+      },
+      {
+        "id": "d3",
+        "price": 7,
+        "label": {
+          "en": "#3 Frankenstein",
+          "es": "#3 Frankenstein"
+        }
+      },
+      {
+        "id": "d4",
+        "price": 9,
+        "label": {
+          "en": "#4 Witch",
+          "es": "#4 Witch"
+        }
+      },
+      {
+        "id": "d5",
+        "price": 9,
+        "label": {
+          "en": "#5 Black Cat with Charms",
+          "es": "#5 Black Cat with Charms"
+        }
+      },
+      {
+        "id": "d6",
+        "price": 9,
+        "label": {
+          "en": "#6 Big Boo Ghost",
+          "es": "#6 Big Boo Ghost"
+        }
+      },
+      {
+        "id": "d7",
+        "price": 7,
+        "label": {
+          "en": "#7 Jack-o'-Lantern",
+          "es": "#7 Jack-o'-Lantern"
+        }
+      },
+      {
+        "id": "d8",
+        "price": 9,
+        "label": {
+          "en": "#8 Potion Bottle",
+          "es": "#8 Potion Bottle"
+        }
+      },
+      {
+        "id": "d9",
+        "price": 5,
+        "label": {
+          "en": "#9 Mini Ghost",
+          "es": "#9 Mini Ghost"
+        }
+      },
+      {
+        "id": "d10",
+        "price": 9,
+        "label": {
+          "en": "#10 Pink Boo Ghost",
+          "es": "#10 Pink Boo Ghost"
+        }
+      },
+      {
+        "id": "d11",
+        "price": 7,
+        "label": {
+          "en": "#11 Happy Candy Corn",
+          "es": "#11 Happy Candy Corn"
+        }
+      },
+      {
+        "id": "d12",
+        "price": 9,
+        "label": {
+          "en": "#12 White Skeleton",
+          "es": "#12 White Skeleton"
+        }
+      },
+      {
+        "id": "d13",
+        "price": 9,
+        "label": {
+          "en": "#13 Black Skeleton",
+          "es": "#13 Black Skeleton"
+        }
+      }
+    ]
+  },
+  {
+    "id": "mini-makers-kit",
+    "photo": "/photos/mini-kit-pumpkin.jpg",
+    "gallery": [
+      "/photos/mini-kit-pumpkin.jpg",
+      "/photos/mini-kit-ghost.jpg",
+      "/photos/mini-kit-duo.jpg"
+    ],
+    "price": 8,
+    "category": "seasonal",
+    "personalized": false,
+    "name": {
+      "en": "Mini Makers DIY Pony Bead Kit — Halloween Edition",
+      "es": "Kit DIY Mini Makers de Pony Beads — Edición Halloween"
+    },
+    "blurb": {
+      "en": "Everything you need to bead your own spooky friend — beads, supplies, and a QR video tutorial. Great for kids and craft nights! 🎃👻",
+      "es": "Todo lo que necesitas para crear tu propio amiguito spooky — cuentas, materiales y video tutorial con código QR. ¡Ideal para niños y noches de manualidades! 🎃👻"
+    },
+    "details": {
+      "en": "Become a Mini Maker! 🎃 Each kit comes with everything you need to make your own pony bead creation — all the beads and supplies, plus a QR code that links to a video tutorial so you can follow along step by step.\n\nChoose the Pumpkin kit 🎃, the Mini Ghost kit 👻, or get the Spooky Duo (both kits) for $15!\n\nPerfect for Halloween craft nights, party activities, or a cozy afternoon of family fun 💕",
+      "es": "¡Conviértete en Mini Maker! 🎃 Cada kit incluye todo lo que necesitas para crear tu propia figura de cuentas — todas las cuentas y materiales, además de un código QR con video tutorial para seguir paso a paso.\n\n¡Elige el kit de Calabaza 🎃, el kit de Mini Fantasma 👻, o llévate el Dúo Spooky (ambos kits) por $15!\n\nPerfecto para noches de manualidades, actividades de fiesta o una tarde de diversión en familia 💕"
+    },
+    "variants": [
+      {
+        "id": "pumpkin",
+        "price": 8,
+        "photo": "/photos/mini-kit-pumpkin.jpg",
+        "label": {
+          "en": "Pumpkin 🎃",
+          "es": "Calabaza 🎃"
+        }
+      },
+      {
+        "id": "mini-ghost",
+        "price": 8,
+        "photo": "/photos/mini-kit-ghost.jpg",
+        "label": {
+          "en": "Mini Ghost 👻",
+          "es": "Mini Fantasma 👻"
+        }
+      },
+      {
+        "id": "spooky-duo",
+        "price": 15,
+        "photo": "/photos/mini-kit-duo.jpg",
+        "label": {
+          "en": "Spooky Duo (both kits, $15) 🎃👻",
+          "es": "Dúo Spooky (ambos kits, $15) 🎃👻"
+        }
+      }
+    ]
+  },
+  {
+    "id": "creeper-keychain",
+    "photo": "/photos/creeper-1.jpg",
+    "gallery": [
+      "/photos/creeper-1.jpg",
+      "/photos/creeper-2.jpg",
+      "/photos/creeper-3.jpg"
+    ],
+    "price": 16,
     "category": "keychains",
     "personalized": true,
-    "name": { "en": "Little Fishy Friend Keychain", "es": "Llavero \"Amiguito Pescado\"" },
-    "blurb": {
-      "en": "A little fishy friend, made extra special with YOUR name. Colorful pony beads + a whole lot of love — perfect for backpacks, keys, or a little whimsy wherever you go.",
-      "es": "Un amiguito pescado, hecho extra especial con TU nombre. Cuentas de colores + muchísimo amor — perfecto para mochilas, llaves, o un toque de magia donde vayas."
+    "name": {
+      "en": "Level Up! | Personalized Creeper Keychain",
+      "es": "Level Up! | Llavero Creeper Personalizado"
     },
-    "igPost": "https://www.instagram.com/madeby_bren/p/DdCZi2iIv68/"
+    "blurb": {
+      "en": "A handmade Creeper buddy with YOUR name in colorful letter beads — the perfect gift for your favorite gamer! 🎮💚",
+      "es": "Un amiguito Creeper hecho a mano con TU nombre en cuentas de letras — ¡el regalo perfecto para tu gamer favorito! 🎮💚"
+    },
+    "details": {
+      "en": "Calling all gamers! 🎮 This handmade pony bead Creeper keychain comes with your name (or your gamer's name) spelled out in colorful letter beads, finished with fun accent beads and a star charm.\n\nStarting at $16 — add the name in the order notes at checkout and Brenda will make it just for you 💚\n\nPerfect for backpacks, keys, or gifting to the Minecraft fan in your life!",
+      "es": "¡Llamando a todos los gamers! 🎮 Este llavero Creeper hecho a mano con cuentas viene con tu nombre (o el de tu gamer favorito) en cuentas de letras de colores, terminado con cuentas decorativas y un dije de estrella.\n\nDesde $16 — escribe el nombre en las notas del pedido al pagar y Brenda lo hará especialmente para ti 💚\n\n¡Perfecto para mochilas, llaves o para regalar al fan de Minecraft en tu vida!"
+    }
+  },
+  {
+    "id": "lip-butter",
+    "photo": "/photos/lips-group-trio-line.jpg",
+    "gallery": [
+      "/photos/lips-group-trio-line.jpg",
+      "/photos/lips-group-mint-cake.jpg",
+      "/photos/lips-group-trio-flat.jpg"
+    ],
+    "price": 10,
+    "category": "lip-care",
+    "personalized": false,
+    "name": {
+      "en": "Spooky Sweet Charmed Lip Butter",
+      "es": "Lip Butter con Dijes Spooky Sweet"
+    },
+    "blurb": {
+      "en": "A little shine, a little charm, and a whole lot of spooky sweetness — five fun scents, each with its own adorable Halloween charm chain. 👻💕",
+      "es": "Un poquito de brillo, un dijito, y muchísima dulzura spooky — cinco aromas divertidos, cada uno con su propia cadena de dijes de Halloween. 👻💕"
+    },
+    "details": {
+      "en": "A little shine, a little charm, and a whole lot of spooky sweetness! 👻💕\n\nOur Spooky Sweet Charmed Lip Butters come in five deliciously fun scents, each paired with its own adorable Halloween-inspired charm chain. Whether you love a simple, sheer look or a little hint of color, there's a sweet little potion waiting for you!\n\n✨ The sweet details:\n• Five fun scents to choose from\n• Sheer and subtly tinted options\n• Adorable Halloween-inspired charms\n• A fun addition to your everyday lip-care routine\n• Perfect for gifting — or treating yourself!\n\nA little note 💕 shades may look slightly different depending on your natural lip color. Each charm chain adds a fun, unique touch and may vary a little in style — that's what makes every gloss a little extra special!",
+      "es": "¡Un poquito de brillo, un dijito, y muchísima dulzura spooky! 👻💕\n\nNuestros Lip Butters Spooky Sweet con dijes vienen en cinco aromas deliciosamente divertidos, cada uno con su propia cadena de dijes inspirada en Halloween. Ya sea que ames un look simple y transparente o un toquecito de color, ¡hay una pocioncita dulce esperándote!\n\n✨ Los dulces detalles:\n• Cinco aromas divertidos para elegir\n• Opciones transparentes y con tinte sutil\n• Dijes adorables inspirados en Halloween\n• Un toque divertido para tu rutina diaria de labios\n• ¡Perfectos para regalar — o regalarte!\n\nUna notita 💕 los tonos pueden verse ligeramente diferentes según tu color natural de labios. Cada cadena de dijes es única y puede variar un poquito — ¡eso hace que cada gloss sea extra especial!"
+    },
+    "variants": [
+      {
+        "id": "vanilla-boo",
+        "photo": "/photos/lips-vanilla.jpg",
+        "label": {
+          "en": "Vanilla Boo 👻",
+          "es": "Vanilla Boo 👻"
+        }
+      },
+      {
+        "id": "minty-magic",
+        "photo": "/photos/lips-mint.jpg",
+        "label": {
+          "en": "Minty Magic 🌿 — Mint · Sheer",
+          "es": "Minty Magic 🌿 — Menta · Transparente"
+        }
+      },
+      {
+        "id": "witchs-brew",
+        "photo": "/photos/lips-iced-coffee.jpg",
+        "label": {
+          "en": "Witch's Brew ☕ — Iced Coffee · Nude Tint",
+          "es": "Witch's Brew ☕ — Café Helado · Tono Nude"
+        }
+      },
+      {
+        "id": "sweet-little-spell",
+        "photo": "/photos/lips-cake.jpg",
+        "label": {
+          "en": "Sweet Little Spell 🍰 — Cake · Soft Pink Tint",
+          "es": "Sweet Little Spell 🍰 — Cake · Rosa Suave"
+        }
+      },
+      {
+        "id": "pink-potion",
+        "photo": "/photos/lips-pink-guava.jpg",
+        "label": {
+          "en": "Pink Potion 💗 — Pink Guava · Pink Tint",
+          "es": "Pink Potion 💗 — Guayaba Rosada · Tono Rosa"
+        }
+      }
+    ]
   },
   {
     "id": "called-to-serve",
@@ -18,7 +311,10 @@
     "price": 12,
     "category": "keychains",
     "personalized": true,
-    "name": { "en": "\"Called to Serve\" Missionary Keychain", "es": "Llavero Misionero \"Called to Serve\"" },
+    "name": {
+      "en": "\"Called to Serve\" Missionary Keychain",
+      "es": "Llavero Misionero \"Called to Serve\""
+    },
     "blurb": {
       "en": "A special little gift for those answering the call to serve. Personalized with each missionary's name — a sweet keepsake to carry wherever their service takes them.",
       "es": "Un regalito especial para quienes responden al llamado de servir. Personalizado con el nombre de cada misionero — un dulce recuerdo para llevar a donde los lleve su servicio."
@@ -26,94 +322,357 @@
     "igPost": "https://www.instagram.com/madeby_bren/p/DdhK9o2wW-M/"
   },
   {
-    "id": "nurse-charm",
-    "photo": "/photos/post-0917-jewelry.jpg",
-    "price": 11,
-    "category": "bag-charms",
-    "personalized": false,
-    "name": { "en": "Nurse Bag Charm", "es": "Dije de Enfermera para Bolso" },
-    "blurb": {
-      "en": "A little charm for the ones who care for everyone else. Perfect for a work bag, badge bag, or as a sweet gift for your favorite nurse — because nurses deserve a little extra joy, too.",
-      "es": "Un dijito para quienes cuidan a todos los demás. Perfecto para el bolso del trabajo o como un dulce regalo para tu enfermera favorita — porque las enfermeras también merecen un poquito de alegría extra."
-    },
-    "igPost": "https://www.instagram.com/madeby_bren/p/DdZwgaOo_Xm/"
-  },
-  {
-    "id": "good-day-bookmark",
-    "photo": "/photos/post-0918-readabook.jpg",
-    "price": 6,
-    "category": "bookmarks",
-    "personalized": false,
-    "name": { "en": "\"Good Day to Read a Book\" Bookmark", "es": "Marcador \"Un Buen Día para Leer\"" },
-    "blurb": {
-      "en": "Cute, bright & full of charm — because your book deserves a bookmark that's just as fun as the story.",
-      "es": "Lindo, brillante y lleno de encanto — porque tu libro merece un marcador tan divertido como la historia."
-    },
-    "igPost": "https://www.instagram.com/madeby_bren/p/DdbnQlWIM3v/"
-  },
-  {
-    "id": "fall-bookmark",
-    "photo": "/photos/post-0922-pumpkin.jpg",
-    "price": 6,
-    "category": "bookmarks",
-    "personalized": false,
-    "name": { "en": "Cozy Fall Bookmark", "es": "Marcador de Otoño" },
-    "blurb": {
-      "en": "Fall reading just got a little cuter. Ready to make your next cozy read even more fun — cafecito optional but recommended.",
-      "es": "La lectura de otoño se puso más linda. Listo para hacer tu próxima lectura acogedora aún más divertida — cafecito opcional pero recomendado."
-    },
-    "igPost": "https://www.instagram.com/madeby_bren/p/DdmrJbbo1uf/"
-  },
-  {
-    "id": "cafecito-bookmark",
-    "photo": "/photos/post-0916-icecream.jpg",
-    "price": 6,
-    "category": "bookmarks",
-    "personalized": false,
-    "name": { "en": "Cafecito & Conchita Bookmark", "es": "Marcador Cafecito y Conchita" },
-    "blurb": {
-      "en": "A little cafecito, a sweet churro, and a conchita… but make it a bookmark. A celebration of the flavors that feel like home.",
-      "es": "Un cafecito, un churro dulce y una conchita… pero en marcador. Una celebración de los sabores que saben a hogar."
-    },
-    "igPost": "https://www.instagram.com/madeby_bren/p/DdXt2yFNCax/"
-  },
-  {
-    "id": "holiday-set",
-    "photo": "/photos/post-0921-christmas.jpg",
+    "id": "fall-favorites",
+    "photo": "/photos/bm-fall-favorites.jpg",
+    "gallery": [
+      "/photos/bm-fall-favorites.jpg",
+      "/photos/bm-fall-favorites-2.jpg",
+      "/photos/bm-fall-favorites-3.jpg",
+      "/photos/bm-size-guide.jpg"
+    ],
     "price": 8,
-    "category": "seasonal",
+    "category": "bookmarks",
     "personalized": false,
-    "name": { "en": "Holiday Bookmark Set", "es": "Set de Marcadores Navideños" },
-    "blurb": {
-      "en": "Stocking-stuffer sized joy. A festive little set for the readers on your list — handmade, bright, and ready to gift.",
-      "es": "Alegría en tamaño perfecto para la media navideña. Un set festivo para los lectores de tu lista — hecho a mano, brillante y listo para regalar."
+    "name": {
+      "en": "Fall Favorites | Mini Bookmarks",
+      "es": "Fall Favorites | Mini Bookmarks"
     },
-    "igPost": "https://www.instagram.com/madeby_bren/p/DdkAuhyoiyh/"
+    "blurb": {
+      "en": "A little fall magic for your next chapter — handmade mini bookmarks inspired by everything we love about autumn. 🍂",
+      "es": "Un poquito de magia otoñal para tu próximo capítulo — mini bookmarks hechos a mano, inspirados en todo lo que amamos del otoño. 🍂"
+    },
+    "details": {
+      "en": "A little fall magic for your next chapter! 🍂📖\n\nCozy up with our Fall Favorites Mini Bookmarks! Inspired by all the little things we love about autumn, these handmade cuties are the perfect way to add a little seasonal happiness to your reading time. Whether you're enjoying your favorite book, sipping something cozy, or looking for a sweet little gift, there's a fall favorite just for you!\n\n✨ The little details:\n• Handmade with love\n• Approximately 1.12\" × 5.15\"\n• Multiple adorable fall-inspired designs to choose from\n• Lightweight and perfect for everyday reading\n• A sweet gift for book lovers, teachers, and friends!\n\nPick your favorite! Browse the collection photo and choose your design by its number. Each bookmark is handmade, so slight variations may occur. Approximately 1.12\" × 5.15\".",
+      "es": "¡Un poquito de magia otoñal para tu próximo capítulo! 🍂📖\n\n¡Ponte cómoda con nuestros Mini Bookmarks Fall Favorites! Inspirados en todas las cositas que amamos del otoño, estos tesoritos hechos a mano son perfectos para agregar felicidad de temporada a tu lectura.\n\n✨ Los detallitos:\n• Hechos a mano con amor\n• Aproximadamente 1.12\" × 5.15\"\n• Varios diseños otoñales adorables para elegir\n• Ligeros y perfectos para leer todos los días\n• Un regalito dulce para amantes de los libros, maestras y amigas!\n\n¡Elige tu favorito! Mira la foto de la colección y escoge tu diseño por su número. Cada bookmark está hecho a mano, así que puede tener ligeras variaciones. Aproximadamente 1.12\" × 5.15\"."
+    },
+    "variants": [
+      {
+        "id": "design-1",
+        "label": {
+          "en": "Design #1",
+          "es": "Diseño #1"
+        }
+      },
+      {
+        "id": "design-2",
+        "label": {
+          "en": "Design #2",
+          "es": "Diseño #2"
+        }
+      },
+      {
+        "id": "design-3",
+        "label": {
+          "en": "Design #3",
+          "es": "Diseño #3"
+        }
+      },
+      {
+        "id": "design-4",
+        "label": {
+          "en": "Design #4",
+          "es": "Diseño #4"
+        }
+      },
+      {
+        "id": "design-5",
+        "label": {
+          "en": "Design #5",
+          "es": "Diseño #5"
+        }
+      },
+      {
+        "id": "design-6",
+        "label": {
+          "en": "Design #6",
+          "es": "Diseño #6"
+        }
+      },
+      {
+        "id": "design-7",
+        "label": {
+          "en": "Design #7",
+          "es": "Diseño #7"
+        }
+      },
+      {
+        "id": "design-8",
+        "label": {
+          "en": "Design #8",
+          "es": "Diseño #8"
+        }
+      },
+      {
+        "id": "design-9",
+        "label": {
+          "en": "Design #9",
+          "es": "Diseño #9"
+        }
+      }
+    ]
   },
   {
-    "id": "hair-clip-set",
-    "photo": "/photos/post-0911-hairclips.jpg",
-    "price": 9,
-    "category": "hair-clips",
+    "id": "spooky-season",
+    "photo": "/photos/bm-spooky-season.jpg",
+    "gallery": [
+      "/photos/bm-spooky-season.jpg",
+      "/photos/bm-spooky-season-2.jpg",
+      "/photos/bm-spooky-season-3.jpg",
+      "/photos/bm-size-guide.jpg"
+    ],
+    "price": 8,
+    "category": "bookmarks",
     "personalized": false,
-    "name": { "en": "Checker & Lace Hair Clip Set", "es": "Set de Clips a Cuadros y Encaje" },
-    "blurb": {
-      "en": "The bookmark from your votes…'s crafty cousin. Playful checkerboard + lace clips that make any ponytail a little more fun.",
-      "es": "El primo craftero del marcador que eligieron con sus votos. Clips a cuadros y encaje que hacen cualquier colita un poquito más divertida."
+    "name": {
+      "en": "Spooky Season | Mini Bookmarks",
+      "es": "Spooky Season | Mini Bookmarks"
     },
-    "igPost": "https://www.instagram.com/madeby_bren/p/DdKvp7WNCuZ/"
+    "blurb": {
+      "en": "A little spooky, a little sweet, and made for your next read — handmade Halloween mini bookmarks. 👻",
+      "es": "Un poquito spooky, un poquito dulce, y hechos para tu próxima lectura — mini bookmarks de Halloween hechos a mano. 👻"
+    },
+    "details": {
+      "en": "A little spooky, a little sweet, and made for your next read! 👻📖\n\nGet into the Halloween spirit with our Spooky Season Mini Bookmarks! From playful Halloween designs to spooky little favorites, these handmade cuties are here to make every chapter a little more fun. Perfect for cozy reading nights, Halloween surprises, or gifting to your favorite book lover!\n\n✨ The little details:\n• Handmade with love\n• Approximately 1.12\" × 5.15\"\n• Multiple Halloween-inspired designs to choose from\n• Lightweight and perfect for everyday reading\n• A sweet little treat for book lovers, teachers, and friends!\n\nPick your favorite! Browse the collection photo and choose your design by its number. Each bookmark is handmade, so slight variations may occur. Approximately 1.12\" × 5.15\".",
+      "es": "¡Un poquito spooky, un poquito dulce, y hechos para tu próxima lectura! 👻📖\n\n¡Entra en el espíritu de Halloween con nuestros Mini Bookmarks Spooky Season! Diseños juguetones de Halloween que hacen cada capítulo un poco más divertido.\n\n✨ Los detallitos:\n• Hechos a mano con amor\n• Aproximadamente 1.12\" × 5.15\"\n• Varios diseños de Halloween para elegir\n• Ligeros y perfectos para leer todos los días\n• Un regalito dulce para amantes de los libros, maestras y amigas!\n\n¡Elige tu favorito! Mira la foto de la colección y escoge tu diseño por su número. Cada bookmark está hecho a mano, así que puede tener ligeras variaciones. Aproximadamente 1.12\" × 5.15\"."
+    },
+    "variants": [
+      {
+        "id": "design-1",
+        "label": {
+          "en": "Design #1",
+          "es": "Diseño #1"
+        }
+      },
+      {
+        "id": "design-2",
+        "label": {
+          "en": "Design #2",
+          "es": "Diseño #2"
+        }
+      },
+      {
+        "id": "design-3",
+        "label": {
+          "en": "Design #3",
+          "es": "Diseño #3"
+        }
+      },
+      {
+        "id": "design-4",
+        "label": {
+          "en": "Design #4",
+          "es": "Diseño #4"
+        }
+      },
+      {
+        "id": "design-5",
+        "label": {
+          "en": "Design #5",
+          "es": "Diseño #5"
+        }
+      },
+      {
+        "id": "design-6",
+        "label": {
+          "en": "Design #6",
+          "es": "Diseño #6"
+        }
+      }
+    ]
   },
   {
-    "id": "spooky-charm",
-    "photo": "/photos/reel-0904-beware.jpg",
-    "price": 7,
-    "category": "seasonal",
+    "id": "spooky-but-sweet",
+    "photo": "/photos/bm-spooky-but-sweet.jpg",
+    "gallery": [
+      "/photos/bm-spooky-but-sweet.jpg",
+      "/photos/bm-spooky-but-sweet-2.jpg",
+      "/photos/bm-size-guide.jpg"
+    ],
+    "price": 8,
+    "category": "bookmarks",
     "personalized": false,
-    "name": { "en": "Spooky Season Charm", "es": "Dije de Temporada Spooky" },
-    "blurb": {
-      "en": "Beware… of how cute this is. A tiny haunted friend for your keys, bag, or spooky-season reading stack.",
-      "es": "Cuidado… con lo lindo que es. Un amiguito embrujado para tus llaves, tu bolso o tu pila de lecturas de spooky season."
+    "name": {
+      "en": "Spooky but Sweet | Mini Bookmarks",
+      "es": "Spooky but Sweet | Mini Bookmarks"
     },
-    "igPost": "https://www.instagram.com/madeby_bren/reel/Dc4L1yUol9R/"
+    "blurb": {
+      "en": "Who says spooky can't be sweet? Playful ghosts, pretty pumpkins, and colorful florals — handmade mini bookmarks. 🎀",
+      "es": "¿Quién dice que spooky no puede ser dulce? Fantasmitas juguetones, calabazas bonitas y flores coloridas — mini bookmarks hechos a mano. 🎀"
+    },
+    "details": {
+      "en": "Who says spooky can't be sweet? 🎀👻\n\nMeet our Spooky but Sweet Mini Bookmarks! A dreamy little mix of playful ghosts, pretty pumpkins, colorful florals, and all things Halloween. These handmade cuties are perfect for adding a little spooky sweetness to your favorite book. Whether you're treating yourself or surprising your favorite book lover, there's a little something for everyone!\n\n✨ The little details:\n• Handmade with love\n• Approximately 1.12\" × 5.15\"\n• 5 adorable Halloween-inspired designs to choose from\n• Lightweight and perfect for everyday reading\n• A sweet little gift for book lovers, teachers, and friends!\n\nPick your favorite! Browse the collection photo and choose your design by its number. Each bookmark is handmade, so slight variations may occur. Approximately 1.12\" × 5.15\".",
+      "es": "¿Quién dice que spooky no puede ser dulce? 🎀👻\n\n¡Conoce nuestros Mini Bookmarks Spooky but Sweet! Una mezcla soñadora de fantasmitas juguetones, calabazas bonitas, flores coloridas y todo lo de Halloween.\n\n✨ Los detallitos:\n• Hechos a mano con amor\n• Aproximadamente 1.12\" × 5.15\"\n• 5 diseños adorables de Halloween para elegir\n• Ligeros y perfectos para leer todos los días\n• Un regalito dulce para amantes de los libros, maestras y amigas!\n\n¡Elige tu favorito! Mira la foto de la colección y escoge tu diseño por su número. Cada bookmark está hecho a mano, así que puede tener ligeras variaciones. Aproximadamente 1.12\" × 5.15\"."
+    },
+    "variants": [
+      {
+        "id": "design-1",
+        "label": {
+          "en": "Design #1",
+          "es": "Diseño #1"
+        }
+      },
+      {
+        "id": "design-2",
+        "label": {
+          "en": "Design #2",
+          "es": "Diseño #2"
+        }
+      },
+      {
+        "id": "design-3",
+        "label": {
+          "en": "Design #3",
+          "es": "Diseño #3"
+        }
+      },
+      {
+        "id": "design-4",
+        "label": {
+          "en": "Design #4",
+          "es": "Diseño #4"
+        }
+      },
+      {
+        "id": "design-5",
+        "label": {
+          "en": "Design #5",
+          "es": "Diseño #5"
+        }
+      }
+    ]
+  },
+  {
+    "id": "words-to-bookmark",
+    "photo": "/photos/bm-words-to-bookmark.jpg",
+    "gallery": [
+      "/photos/bm-words-to-bookmark.jpg",
+      "/photos/bm-words-to-bookmark-2.jpg",
+      "/photos/bm-size-guide.jpg"
+    ],
+    "price": 8,
+    "category": "bookmarks",
+    "personalized": false,
+    "name": {
+      "en": "Words to Bookmark | Mini Bookmarks",
+      "es": "Words to Bookmark | Mini Bookmarks"
+    },
+    "blurb": {
+      "en": "Little bookmarks. Meaningful words. A whole lot of happy — fun sayings and sweet reminders, handmade. 💕",
+      "es": "Bookmarks pequeñitos. Palabras con significado. Muchísima felicidad — frases divertidas y recordatorios dulces, hechos a mano. 💕"
+    },
+    "details": {
+      "en": "Little bookmarks. Meaningful words. A whole lot of happy! 💕📖\n\nMeet our Words to Bookmark Mini Bookmarks! A collection of fun sayings, sweet reminders, and little words that make you smile. Whether you're looking for a little encouragement, a good laugh, or a thoughtful gift, these handmade cuties add a little extra personality to every page!\n\n✨ The little details:\n• Handmade with love\n• Approximately 1.12\" × 5.15\"\n• Multiple quote-inspired designs to choose from\n• Lightweight and perfect for everyday reading\n• A sweet little gift for book lovers, teachers, and friends!\n\nPick your favorite! Browse the collection photo and choose your design by its number. Each bookmark is handmade, so slight variations may occur. Approximately 1.12\" × 5.15\".",
+      "es": "¡Bookmarks pequeñitos. Palabras con significado. Muchísima felicidad! 💕📖\n\n¡Conoce nuestros Mini Bookmarks Words to Bookmark! Una colección de frases divertidas, recordatorios dulces y palabritas que te hacen sonreír.\n\n✨ Los detallitos:\n• Hechos a mano con amor\n• Aproximadamente 1.12\" × 5.15\"\n• Varios diseños con frases para elegir\n• Ligeros y perfectos para leer todos los días\n• Un regalito dulce para amantes de los libros, maestras y amigas!\n\n¡Elige tu favorito! Mira la foto de la colección y escoge tu diseño por su número. Cada bookmark está hecho a mano, así que puede tener ligeras variaciones. Aproximadamente 1.12\" × 5.15\"."
+    },
+    "variants": [
+      {
+        "id": "design-1",
+        "label": {
+          "en": "Design #1",
+          "es": "Diseño #1"
+        }
+      },
+      {
+        "id": "design-2",
+        "label": {
+          "en": "Design #2",
+          "es": "Diseño #2"
+        }
+      },
+      {
+        "id": "design-3",
+        "label": {
+          "en": "Design #3",
+          "es": "Diseño #3"
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafecito-conchitas",
+    "photo": "/photos/bm-cafecito-conchitas.jpg",
+    "gallery": [
+      "/photos/bm-cafecito-conchitas.jpg",
+      "/photos/bm-cafecito-conchitas-2.jpg",
+      "/photos/bm-size-guide.jpg"
+    ],
+    "price": 8,
+    "category": "bookmarks",
+    "personalized": false,
+    "name": {
+      "en": "Cafecito & Conchitas | Mini Bookmarks",
+      "es": "Cafecito & Conchitas | Mini Bookmarks"
+    },
+    "blurb": {
+      "en": "A little cafecito, a sweet conchita, and your favorite book — cozy pan dulce-inspired mini bookmarks. ☕",
+      "es": "Un cafecito, una conchita dulce y tu libro favorito — mini bookmarks inspirados en pan dulce, hechos a mano. ☕"
+    },
+    "details": {
+      "en": "A little cafecito, a sweet conchita, and your favorite book! ☕💕📖\n\nMeet our Cafecito & Conchitas Mini Bookmarks! Inspired by cozy mornings, sweet pan dulce, and the little traditions that make life extra special. These handmade cuties bring a little warmth, nostalgia, and happiness to every page. Perfect for coffee lovers, bookworms, and anyone who knows that everything is better with a cafecito and something sweet!\n\n✨ The little details:\n• Handmade with love\n• Approximately 1.12\" × 5.15\"\n• Multiple cafecito and pan dulce-inspired designs to choose from\n• Lightweight and perfect for everyday reading\n• A sweet little gift for coffee lovers, book lovers, teachers, and friends!\n\nPick your favorite! Browse the collection photo and choose your design by its number. Each bookmark is handmade, so slight variations may occur. Approximately 1.12\" × 5.15\".",
+      "es": "¡Un cafecito, una conchita dulce y tu libro favorito! ☕💕📖\n\n¡Conoce nuestros Mini Bookmarks Cafecito & Conchitas! Inspirados en mañanas acogedoras, pan dulce y las tradicioncitas que hacen la vida extra especial.\n\n✨ Los detallitos:\n• Hechos a mano con amor\n• Aproximadamente 1.12\" × 5.15\"\n• Varios diseños de cafecito y pan dulce para elegir\n• Ligeros y perfectos para leer todos los días\n• Un regalito dulce para amantes del café, amantes de los libros, maestras y amigas!\n\n¡Elige tu favorito! Mira la foto de la colección y escoge tu diseño por su número. Cada bookmark está hecho a mano, así que puede tener ligeras variaciones. Aproximadamente 1.12\" × 5.15\"."
+    },
+    "variants": [
+      {
+        "id": "design-1",
+        "label": {
+          "en": "Design #1",
+          "es": "Diseño #1"
+        }
+      },
+      {
+        "id": "design-2",
+        "label": {
+          "en": "Design #2",
+          "es": "Diseño #2"
+        }
+      },
+      {
+        "id": "design-3",
+        "label": {
+          "en": "Design #3",
+          "es": "Diseño #3"
+        }
+      }
+    ]
+  },
+  {
+    "id": "game-day-groovy",
+    "photo": "/photos/bm-game-day-groovy.jpg",
+    "gallery": [
+      "/photos/bm-game-day-groovy.jpg",
+      "/photos/bm-game-day-groovy-2.jpg",
+      "/photos/bm-size-guide.jpg"
+    ],
+    "price": 8,
+    "category": "bookmarks",
+    "personalized": false,
+    "name": {
+      "en": "Game Day & Groovy Vibes | Mini Bookmarks",
+      "es": "Game Day & Groovy Vibes | Mini Bookmarks"
+    },
+    "blurb": {
+      "en": "A little game day spirit, a little flower power — football and groovy floral mini bookmarks, handmade. 🏈",
+      "es": "Un poquito de espíritu de game day, un poquito de flower power — mini bookmarks de fútbol y flores retro, hechos a mano. 🏈"
+    },
+    "details": {
+      "en": "A little game day spirit, a little flower power, and a whole lot of happy! 🏈🌼\n\nMeet our Game Day & Groovy Vibes Mini Bookmarks! A playful mix of football-inspired designs, checkered patterns, and groovy florals made to bring a little extra personality to every page. Whether you're cheering on your favorite team, enjoying a cozy reading day, or just loving all things retro and cute, these handmade bookmarks are the perfect little pick-me-up!\n\n✨ The little details:\n• Handmade with love\n• Approximately 1.12\" × 5.15\"\n• Multiple football and groovy floral designs to choose from\n• Lightweight and perfect for everyday reading\n• A sweet little gift for book lovers, football fans, teachers, and friends!\n\nPick your favorite! Browse the collection photo and choose your design by its number. Each bookmark is handmade, so slight variations may occur. Approximately 1.12\" × 5.15\".",
+      "es": "¡Un poquito de espíritu de game day, un poquito de flower power y muchísima felicidad! 🏈🌼\n\n¡Conoce nuestros Mini Bookmarks Game Day & Groovy Vibes! Una mezcla juguetona de diseños de fútbol, patrones de cuadritos y flores groovy.\n\n✨ Los detallitos:\n• Hechos a mano con amor\n• Aproximadamente 1.12\" × 5.15\"\n• Varios diseños de fútbol y flores groovy para elegir\n• Ligeros y perfectos para leer todos los días\n• Un regalito dulce para amantes de los libros, fans del fútbol, maestras y amigas!\n\n¡Elige tu favorito! Mira la foto de la colección y escoge tu diseño por su número. Cada bookmark está hecho a mano, así que puede tener ligeras variaciones. Aproximadamente 1.12\" × 5.15\"."
+    },
+    "variants": [
+      {
+        "id": "design-1",
+        "label": {
+          "en": "Design #1",
+          "es": "Diseño #1"
+        }
+      },
+      {
+        "id": "design-2",
+        "label": {
+          "en": "Design #2",
+          "es": "Diseño #2"
+        }
+      }
+    ]
   }
 ]
