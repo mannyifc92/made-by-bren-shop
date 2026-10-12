@@ -49,6 +49,31 @@ getCatalog()
 // What the storefront renders: hidden products are not public.
 const visibleCatalog = () => getCatalog().filter((p) => !p.hidden)
 
+// Site copy overrides (CoreOps portal writes content.json via a mounted
+// volume). Shape: { "i18n.key": { "en": "...", "es": "..." } } — sparse:
+// only the strings Brenda has edited. A missing file is NOT an error (the
+// bundled defaults are the site copy); an unreadable/corrupt file serves the
+// last good overrides.
+const CONTENT_PATH = process.env.CONTENT_PATH || join(__dirname, 'content.json')
+let contentCache = {}
+let contentStamp = null
+const getContent = () => {
+  try {
+    const st = statSync(CONTENT_PATH)
+    const stamp = `${st.mtimeMs}:${st.size}`
+    if (stamp !== contentStamp) {
+      const data = JSON.parse(readFileSync(CONTENT_PATH, 'utf8'))
+      if (typeof data !== 'object' || data === null || Array.isArray(data)) throw new Error('content is not an object')
+      contentCache = data
+      contentStamp = stamp
+      console.log(`content overrides loaded: ${Object.keys(data).length} keys (${stamp})`)
+    }
+  } catch (err) {
+    if (err.code !== 'ENOENT') console.error('content reload failed, serving last good copy:', err.message)
+  }
+  return contentCache
+}
+
 const PORT = process.env.PORT || 4100
 const STRIPE_KEY = process.env.STRIPE_SECRET_KEY || ''
 const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`
@@ -212,6 +237,11 @@ app.get('/api/catalog', (_req, res) => {
     console.error('catalog error:', err)
     res.status(500).json({ error: 'catalog unavailable' })
   }
+})
+
+// Site copy overrides — sparse map of i18n keys Brenda has edited.
+app.get('/api/content', (_req, res) => {
+  res.json(getContent())
 })
 
 app.get('/api/health', (_req, res) => {

@@ -6,3 +6,4 @@ server/public/
 .DS_Store
 .env
 catalog.json
+content.json

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 
 export type Lang = 'en' | 'es'
 
@@ -214,7 +214,18 @@ const Ctx = createContext<I18nCtx>({ lang: 'en', setLang: () => {}, t: (k) => k 
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>('en')
-  const t = (k: TKey) => dict[lang][k] ?? k
+  // Live copy overrides from GET /api/content (written by the CoreOps portal).
+  // Bundled dict stays the default; overrides layer on top per key+language.
+  const [overrides, setOverrides] = useState<Partial<Record<TKey, { en?: string; es?: string }>>>({})
+  useEffect(() => {
+    fetch(`${import.meta.env.BASE_URL}api/content`.replace(/\/\/api/, '/api'))
+      .then((res) => (res.ok ? res.json() : Promise.reject(new Error(String(res.status)))))
+      .then((data) => {
+        if (data && typeof data === 'object' && !Array.isArray(data)) setOverrides(data)
+      })
+      .catch(() => {}) // no overrides reachable — bundled copy is the site text
+  }, [])
+  const t = (k: TKey) => overrides[k]?.[lang] ?? dict[lang][k] ?? k
   return <Ctx.Provider value={{ lang, setLang, t }}>{children}</Ctx.Provider>
 }
 
