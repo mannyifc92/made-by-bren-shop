@@ -8,7 +8,7 @@
 // page calls /api/order-lookup with the Stripe session id to fetch them.
 
 import express from 'express'
-import { readFileSync, existsSync, statSync } from 'node:fs'
+import { readFileSync, writeFileSync, renameSync, existsSync, statSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -46,8 +46,51 @@ const getCatalog = () => {
 // Boot fails loudly if the catalog is missing/invalid (e.g. forgotten volume mount).
 getCatalog()
 
-// What the storefront renders: hidden products are not public.
+// What the storefront renders: hidden products are not public. Sold-out
+// (stock === 0) products ARE public — the UI shows them with an Agotado
+// badge and checkout refuses them; demand stays visible.
 const visibleCatalog = () => getCatalog().filter((p) => !p.hidden)
+
+// Stock decrement (CoreOps §29.8): once per PAID Stripe session, recorded in
+// processed-orders.json next to the catalog so a success-page refresh never
+// double-counts. Whole-file atomic write (tmp + rename), same discipline as
+// the portal's provider; a cross-process clobber would be caught by the
+// provider's verify-after-write on its next edit.
+const PROCESSED_PATH = join(dirname(CATALOG_PATH), 'processed-orders.json')
+const writeJsonAtomic = (path, data) => {
+  const tmp = `${path}.tmp-${process.pid}-${Date.now()}`
+  writeFileSync(tmp, JSON.stringify(data, null, 2) + '\n')
+  renameSync(tmp, path)
+}
+const loadProcessed = () => {
+  try {
+    const data = JSON.parse(readFileSync(PROCESSED_PATH, 'utf8'))
+    return typeof data === 'object' && data !== null && !Array.isArray(data) ? data : {}
+  } catch {
+    return {}
+  }
+}
+const decrementStock = (sessionId, items) => {
+  const processed = loadProcessed()
+  if (processed[sessionId]) return false
+  const catalog = loadCatalog() // fresh from disk, never the cache
+  let changed = false
+  for (const { id, qty } of items) {
+    const p = catalog.find((x) => x.id === id)
+    if (p && typeof p.stock === 'number') {
+      p.stock = Math.max(0, p.stock - Math.max(1, qty || 1))
+      changed = true
+    }
+  }
+  if (changed) {
+    writeJsonAtomic(CATALOG_PATH, catalog)
+    catalogCache = null // force reload on next read
+    console.log(`stock decremented for order ${sessionId}`)
+  }
+  processed[sessionId] = new Date().toISOString()
+  writeJsonAtomic(PROCESSED_PATH, processed)
+  return true
+}
 
 // Site copy overrides (CoreOps portal writes content.json via a mounted
 // volume). Shape: { "i18n.key": { "en": "...", "es": "..." } } — sparse:
@@ -112,6 +155,11 @@ app.post('/api/checkout', async (req, res) => {
       const product = getCatalog().find((p) => p.id === line.id)
       const qty = Math.max(1, Math.min(99, Number(line.qty) || 1))
       if (!product || product.hidden) return res.status(400).json({ error: `unknown product: ${line.id}` })
+      // Tracked stock: refuse what we don't have (§29.8). Untracked products
+      // (no stock field) are always available.
+      if (typeof product.stock === 'number' && product.stock < qty) {
+        return res.status(400).json({ error: `sold out: ${product.name.en}`, id: product.id })
+      }
 
       let variant = null
       if (product.variants) {
@@ -218,9 +266,14 @@ app.get('/api/order-lookup', async (req, res) => {
     if (session.payment_status !== 'paid') return res.status(402).json({ error: 'not paid' })
 
     const ids = (session.line_items?.data || [])
-      .map((li) => li.price?.product?.metadata?.productId)
-      .filter(Boolean)
-    const downloads = digitalDownloads(getCatalog().filter((p) => ids.includes(p.id)))
+      .map((li) => ({
+        id: li.price?.product?.metadata?.productId,
+        qty: li.quantity || 1,
+      }))
+      .filter((l) => l.id)
+    // Stock goes down exactly once per paid order (idempotent by session id).
+    decrementStock(sessionId, ids)
+    const downloads = digitalDownloads(getCatalog().filter((p) => ids.some((l) => l.id === p.id)))
     res.json({ downloads })
   } catch (err) {
     console.error('order-lookup error:', err)

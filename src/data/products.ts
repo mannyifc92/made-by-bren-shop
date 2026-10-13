@@ -15,6 +15,7 @@ export interface Product {
   category: Category
   personalized: boolean
   hidden?: boolean // set by the CoreOps portal — hidden products never render
+  stock?: number // tracked inventory (CoreOps §29.8): 0 = sold out, absent = untracked
   stockNote?: { en: string; es: string }
   name: { en: string; es: string }
   blurb?: { en: string; es: string }

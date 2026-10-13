@@ -33,16 +33,23 @@ export default function Store() {
   }, 0)
 
   const addToCart = (p: Product) => {
+    if (p.stock === 0) return // sold out — the button is disabled; this is defense in depth
     setCart((c) => {
       const line = c.find((l) => l.id === p.id)
-      return line ? c.map((l) => (l.id === p.id ? { ...l, qty: l.qty + 1 } : l)) : [...c, { id: p.id, qty: 1 }]
+      const next = line ? line.qty + 1 : 1
+      // Tracked stock caps the quantity you can cart (server re-validates).
+      const capped = typeof p.stock === 'number' ? Math.min(next, p.stock) : next
+      return line ? c.map((l) => (l.id === p.id ? { ...l, qty: capped } : l)) : [...c, { id: p.id, qty: 1 }]
     })
     setJustAdded(p.id)
     window.setTimeout(() => setJustAdded((cur) => (cur === p.id ? null : cur)), 1200)
   }
 
-  const setQty = (id: string, qty: number) =>
+  const setQty = (id: string, qty: number) => {
+    const p = products.find((p) => p.id === id)
+    if (p && typeof p.stock === 'number') qty = Math.min(qty, p.stock)
     setCart((c) => (qty <= 0 ? c.filter((l) => l.id !== id) : c.map((l) => (l.id === id ? { ...l, qty } : l))))
+  }
 
   const startCheckout = async () => {
     setWorking(true)
@@ -166,6 +173,11 @@ export default function Store() {
                       {t('store.personalized')}
                     </span>
                   )}
+                  {p.stock === 0 && (
+                    <span className="sticker bg-muted text-muted-foreground absolute top-3 right-3 !text-[10px]">
+                      {t('store.soldout')}
+                    </span>
+                  )}
                 </div>
                 <div className="p-5 flex flex-col flex-1">
                   <div className="flex items-start justify-between gap-3">
@@ -173,21 +185,30 @@ export default function Store() {
                     <span className="font-black text-lg whitespace-nowrap">{formatPrice(p.price)}</span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-2 leading-relaxed flex-1">{p.blurb?.[lang]}</p>
-                  {p.stockNote && (
+                  {p.stockNote ? (
                     <p className="text-xs font-bold text-secondary-foreground bg-secondary rounded-lg px-2 py-1 mt-2 inline-block self-start">
                       {p.stockNote[lang]}
                     </p>
+                  ) : (
+                    typeof p.stock === 'number' && p.stock > 0 && p.stock <= 5 && (
+                      <p className="text-xs font-bold text-secondary-foreground bg-secondary rounded-lg px-2 py-1 mt-2 inline-block self-start">
+                        {t('store.left').replace('{n}', String(p.stock))}
+                      </p>
+                    )
                   )}
                   {p.personalized && (
                     <p className="text-xs text-muted-foreground italic mt-2">{t('store.personalized.hint')}</p>
                   )}
                   <button
                     onClick={() => addToCart(p)}
+                    disabled={p.stock === 0}
                     className={`btn-chunky mt-4 w-full ${
-                      justAdded === p.id ? 'bg-secondary text-secondary-foreground' : 'bg-primary text-primary-foreground'
+                      p.stock === 0
+                        ? 'bg-muted text-muted-foreground cursor-not-allowed opacity-70'
+                        : justAdded === p.id ? 'bg-secondary text-secondary-foreground' : 'bg-primary text-primary-foreground'
                     }`}
                   >
-                    {justAdded === p.id ? t('store.added') : t('store.add')}
+                    {p.stock === 0 ? t('store.soldout') : justAdded === p.id ? t('store.added') : t('store.add')}
                   </button>
                 </div>
               </article>
