@@ -10,14 +10,14 @@ export type Category = 'bookmarks' | 'keychains' | 'bag-charms' | 'hair-clips' |
 
 export interface Product {
   id: string
-  photo: string
+  photo?: string // optional — portal-added products may have none yet (placeholder renders)
   price: number // display price — the server is the source of truth at checkout
   category: Category
   personalized: boolean
   hidden?: boolean // set by the CoreOps portal — hidden products never render
   stockNote?: { en: string; es: string }
   name: { en: string; es: string }
-  blurb: { en: string; es: string }
+  blurb?: { en: string; es: string }
   igPost?: string
 }
 

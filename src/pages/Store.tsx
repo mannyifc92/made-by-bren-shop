@@ -156,7 +156,11 @@ export default function Store() {
                 }`}
               >
                 <div className="relative">
-                  <img src={asset(p.photo)} alt={p.name[lang]} className="w-full aspect-square object-cover" loading="lazy" />
+                  {p.photo ? (
+                    <img src={asset(p.photo)} alt={p.name[lang]} className="w-full aspect-square object-cover" loading="lazy" />
+                  ) : (
+                    <div className="w-full aspect-square bg-accent/30 flex items-center justify-center text-6xl select-none" aria-hidden="true">✨</div>
+                  )}
                   {p.personalized && (
                     <span className="sticker bg-accent text-accent-foreground absolute top-3 left-3 !text-[10px]">
                       {t('store.personalized')}
@@ -168,7 +172,7 @@ export default function Store() {
                     <h3 className="font-display font-bold text-lg leading-snug">{p.name[lang]}</h3>
                     <span className="font-black text-lg whitespace-nowrap">{formatPrice(p.price)}</span>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed flex-1">{p.blurb[lang]}</p>
+                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed flex-1">{p.blurb?.[lang]}</p>
                   {p.stockNote && (
                     <p className="text-xs font-bold text-secondary-foreground bg-secondary rounded-lg px-2 py-1 mt-2 inline-block self-start">
                       {p.stockNote[lang]}
@@ -234,7 +238,11 @@ export default function Store() {
                 const p = products.find((p) => p.id === l.id)!
                 return (
                   <div key={l.id} className="flex gap-4 items-center">
-                    <img src={asset(p.photo)} alt="" className="w-16 h-16 rounded-xl object-cover border-2 border-foreground/60" />
+                    {p.photo ? (
+                      <img src={asset(p.photo)} alt="" className="w-16 h-16 rounded-xl object-cover border-2 border-foreground/60" />
+                    ) : (
+                      <div className="w-16 h-16 rounded-xl bg-accent/30 border-2 border-foreground/60 flex items-center justify-center text-2xl select-none" aria-hidden="true">✨</div>
+                    )}
                     <div className="flex-1">
                       <div className="font-bold text-sm leading-snug">{p.name[lang]}</div>
                       <div className="text-sm text-muted-foreground">{formatPrice(p.price)}</div>
