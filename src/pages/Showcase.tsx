@@ -65,7 +65,7 @@ export default function Showcase() {
                   i % 2 ? 'rotate-[0.6deg]' : '-rotate-[0.6deg]'
                 }`}
               >
-                <img src={asset(p.photo)} alt={p.name[lang]} className="w-full aspect-square object-cover" loading="lazy" />
+                <img src={asset(p.photo!)} alt={p.name[lang]} className="w-full aspect-square object-cover" loading="lazy" />
                 <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/35 transition-colors flex items-end">
                   <span className="text-background font-bold text-sm p-3 opacity-0 group-hover:opacity-100 transition-opacity">
                     {p.name[lang]} ↗
