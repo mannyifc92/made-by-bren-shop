@@ -121,7 +121,7 @@ export default function Store() {
           </div>
           <div className="relative mx-auto max-w-sm">
             <div className="polaroid rotate-2">
-              <img src={asset('/photos/post-0908-seahorse.jpg')} alt="Personalized fish keychains" className="rounded-sm aspect-square object-cover" />
+              <img src={asset('/photos/hero-name-keychains.jpg')} alt="Personalized name keychains by Made by Bren" className="rounded-sm aspect-square object-cover" />
             </div>
             <div className="polaroid -rotate-3 absolute -bottom-10 -left-10 w-36 hidden sm:block">
               <img src={asset('/photos/post-0922-pumpkin.jpg')} alt="Fall bookmarks" className="rounded-sm aspect-square object-cover" />
