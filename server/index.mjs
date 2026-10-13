@@ -248,6 +248,15 @@ app.get('/api/health', (_req, res) => {
   res.json({ ok: true, mode: MOCK ? 'mock' : 'stripe', products: getCatalog().length })
 })
 
+// Runtime photos (uploaded via the CoreOps portal) live on the mounted
+// portal-data volume — NOT baked into the image — and are served first so an
+// upload wins over a same-named bundled file. PHOTOS_PATH defaults to the
+// portal-data mount; missing dir just means no uploads yet.
+const photosDir = process.env.PHOTOS_PATH || '/srv/portal-data/photos'
+if (existsSync(photosDir)) {
+  app.use('/photos', express.static(photosDir))
+}
+
 // Serve the built frontend
 const dist = join(__dirname, 'public')
 if (existsSync(dist)) {
