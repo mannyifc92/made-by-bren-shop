@@ -130,6 +130,64 @@ if (!MOCK) {
 }
 
 const app = express()
+
+// Stripe webhook — registered BEFORE express.json() because signature
+// verification needs the raw request body.
+// Stripe → here → n8n → SMS/Discord. Stock decrement also lives here so it
+// happens even if the buyer closes the tab before the success page loads
+// (order-lookup keeps its call as the idempotent fallback, §29.8).
+const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || ''
+const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL || ''
+app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  if (MOCK || !WEBHOOK_SECRET) return res.status(400).json({ error: 'webhook not configured' })
+  let event
+  try {
+    event = stripe.webhooks.constructEvent(req.body, req.headers['stripe-signature'] || '', WEBHOOK_SECRET)
+  } catch (err) {
+    console.error('webhook signature rejected:', err.message)
+    return res.status(400).json({ error: 'bad signature' })
+  }
+  if (event.type === 'checkout.session.completed') {
+    try {
+      const session = await stripe.checkout.sessions.retrieve(event.data.object.id, {
+        expand: ['line_items.data.price.product'],
+      })
+      if (session.payment_status === 'paid') {
+        const items = (session.line_items?.data || [])
+          .map((li) => ({
+            id: li.price?.product?.metadata?.productId,
+            name: li.price?.product?.name || li.description,
+            qty: li.quantity || 1,
+          }))
+          .filter((l) => l.id)
+        decrementStock(session.id, items)
+        // Fire-and-forget: a notification failure must never fail Stripe's
+        // webhook (Stripe retries on non-2xx and we'd double-decrement risk
+        // is covered by idempotency, but noise is avoidable).
+        if (N8N_WEBHOOK_URL) {
+          const payload = {
+            session_id: session.id,
+            items: items.map(({ name, qty }) => ({ name, qty })),
+            total: (session.amount_total || 0) / 100,
+            currency: session.currency || 'usd',
+            delivery: session.metadata?.delivery || '',
+            personalization: session.metadata?.personalization || '',
+          }
+          fetch(N8N_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(payload),
+            signal: AbortSignal.timeout(5000),
+          }).catch((err) => console.error('n8n notify failed:', err.message))
+        }
+      }
+    } catch (err) {
+      console.error('webhook handling error:', err)
+    }
+  }
+  res.json({ received: true })
+})
+
 app.use(express.json())
 
 const digitalDownloads = (items) =>
