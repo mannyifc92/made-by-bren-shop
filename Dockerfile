@@ -1,7 +1,11 @@
 # Made by Bren — production shop (prebuilt artifacts, no npm inside the image)
-# Build locally before docker build:
-#   VITE_SHOP_MODE=production npm run build
-#   (server/node_modules is committed-ready via `cd server && npm install`)
+# Marvin has no Node/npm — the full deploy sequence is (2026-10-12, corrected
+# after a docker build silently reused a stale dist):
+#   Mac:    VITE_SHOP_MODE=production npm run build
+#   Mac:    rsync -az --delete dist/ mannyrdh@marvin-gcp:~/made-by-bren-shop/dist/
+#   Marvin: docker build -t made-by-bren-shop . && docker stop/rm/run (run
+#           command at the bottom of this file)
+# dist is gitignored, so a git pull alone NEVER updates the served frontend.
 
 FROM node:22-alpine
 WORKDIR /srv
