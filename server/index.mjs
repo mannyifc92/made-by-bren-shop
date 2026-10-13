@@ -70,16 +70,25 @@ const loadProcessed = () => {
     return {}
   }
 }
+const LOW_STOCK_THRESHOLD = Number(process.env.LOW_STOCK_THRESHOLD || 2)
+const DISCORD_ALERT_WEBHOOK_URL = process.env.DISCORD_ALERT_WEBHOOK_URL || ''
 const decrementStock = (sessionId, items) => {
   const processed = loadProcessed()
   if (processed[sessionId]) return false
   const catalog = loadCatalog() // fresh from disk, never the cache
   let changed = false
+  const lowStock = []
   for (const { id, qty } of items) {
     const p = catalog.find((x) => x.id === id)
     if (p && typeof p.stock === 'number') {
+      const before = p.stock
       p.stock = Math.max(0, p.stock - Math.max(1, qty || 1))
       changed = true
+      // Low-stock alert fires on the downward crossing only, so a portal
+      // restock above the threshold re-arms it naturally.
+      if (before > LOW_STOCK_THRESHOLD && p.stock <= LOW_STOCK_THRESHOLD) {
+        lowStock.push({ name: p.name?.en || id, left: p.stock })
+      }
     }
   }
   if (changed) {
@@ -89,6 +98,18 @@ const decrementStock = (sessionId, items) => {
   }
   processed[sessionId] = new Date().toISOString()
   writeJsonAtomic(PROCESSED_PATH, processed)
+  // Fire-and-forget: alerting must never fail the order path.
+  if (lowStock.length && DISCORD_ALERT_WEBHOOK_URL) {
+    const lines = lowStock.map((l) => `• ${l.name}: ${l.left} left`).join('\n')
+    fetch(DISCORD_ALERT_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        content: `🧵 **Made by Bren — low stock** (order ${sessionId})\n${lines}\nTime to make more or restock in the portal.`,
+      }),
+      signal: AbortSignal.timeout(5000),
+    }).catch((err) => console.error('low-stock alert failed:', err.message))
+  }
   return true
 }
 

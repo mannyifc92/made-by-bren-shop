@@ -82,7 +82,9 @@
     "store.preview.title": "Checkout preview (test mode)",
     "store.preview.body": "In the live shop, this is where Stripe's secure checkout opens — card, Apple Pay, the works. No real charge happens in test mode.",
     "store.success.title": "Thank you! 🎉",
-    "store.success.body": "Your order is in. Brenda gets an email with everything she needs — including any names to personalize — and she'll start making it with love."
+    "store.success.body": "Your order is in. Brenda gets an email with everything she needs — including any names to personalize — and she'll start making it with love.",
+    "announcement.text": "",
+    "store.hero.photo": "/photos/hero-name-keychains.jpg"
   },
   "es": {
     "brand.tag": "Cositas felices hechas a mano ✨",
@@ -167,6 +169,8 @@
     "store.preview.title": "Vista previa del pago (modo prueba)",
     "store.preview.body": "En la tienda real, acá se abre el pago seguro de Stripe — tarjeta, Apple Pay, todo. En modo prueba no se cobra nada.",
     "store.success.title": "¡Gracias! 🎉",
-    "store.success.body": "Tu pedido ya está. Brenda recibe un email con todo lo que necesita — incluidos los nombres para personalizar — y empieza a hacerlo con amor."
+    "store.success.body": "Tu pedido ya está. Brenda recibe un email con todo lo que necesita — incluidos los nombres para personalizar — y empieza a hacerlo con amor.",
+    "announcement.text": "",
+    "store.hero.photo": "/photos/hero-name-keychains.jpg"
   }
 }

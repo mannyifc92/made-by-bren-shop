@@ -107,6 +107,13 @@ export default function Store() {
       </header>
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-6 pb-20">
+        {/* Announcement bar — editable from the CoreOps portal
+            (announcement.text); empty = hidden. */}
+        {t('announcement.text').trim() && (
+          <div className="mt-4 mb-2 sticker bg-accent text-accent-foreground !text-sm text-center">
+            {t('announcement.text')}
+          </div>
+        )}
         {/* Hero */}
         <section className="grid md:grid-cols-2 gap-10 items-center mt-6 mb-16">
           <div>
@@ -128,7 +135,9 @@ export default function Store() {
           </div>
           <div className="relative mx-auto max-w-sm">
             <div className="polaroid rotate-2">
-              <img src={asset('/photos/hero-name-keychains.jpg')} alt="Personalized name keychains by Made by Bren" className="rounded-sm aspect-square object-cover" />
+              {/* Hero photo is a site-copy value (store.hero.photo) so Brenda
+                  can swap it from the portal; guard to real /photos/ paths. */}
+              <img src={asset(/^\/photos\/[\w.-]+$/.test(t('store.hero.photo')) ? t('store.hero.photo') : '/photos/hero-name-keychains.jpg')} alt="Personalized name keychains by Made by Bren" className="rounded-sm aspect-square object-cover" />
             </div>
             <div className="polaroid -rotate-3 absolute -bottom-10 -left-10 w-36 hidden sm:block">
               <img src={asset('/photos/post-0922-pumpkin.jpg')} alt="Fall bookmarks" className="rounded-sm aspect-square object-cover" />
