@@ -356,6 +356,22 @@ export default function Store() {
               <span>{formatPrice(cartTotal)}</span>
             </div>
             <p className="text-xs text-muted-foreground mb-5">{t('store.shipping-note')}</p>
+            {/* Free-shipping progress line — threshold is Brenda-editable
+                (store.free-shipping-threshold, dollars; 0 = off). */}
+            {(() => {
+              const threshold = parseFloat(t('store.free-shipping-threshold'))
+              if (!threshold || threshold <= 0 || delivery !== 'ship') return null
+              const remaining = threshold - cartTotal
+              return (
+                <p className={`text-xs font-bold mb-5 ${remaining <= 0 ? 'text-primary' : 'text-muted-foreground'}`}>
+                  {remaining <= 0
+                    ? (lang === 'en' ? '🎉 Free shipping!' : '🎉 ¡Envío gratis!')
+                    : lang === 'en'
+                      ? `Add ${formatPrice(remaining)} more for free shipping`
+                      : `Agrega ${formatPrice(remaining)} más para envío gratis`}
+                </p>
+              )
+            })()}
 
             {checkoutError && <p className="text-sm font-bold text-destructive mb-4">{t('store.checkout.error')}</p>}
 

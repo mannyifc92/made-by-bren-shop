@@ -142,6 +142,16 @@ const PORT = process.env.PORT || 4100
 const STRIPE_KEY = process.env.STRIPE_SECRET_KEY || ''
 const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`
 const FLAT_SHIPPING_CENTS = Number(process.env.FLAT_SHIPPING_CENTS || 500) // Brenda sets the real amount
+// Free shipping over this subtotal, in DOLLARS. Brenda-editable from the
+// portal via the store.free-shipping-threshold copy key (override wins);
+// 0 or unparseable-with-0 intent ("off") disables. Default $50.
+const DEFAULT_FREE_SHIPPING_THRESHOLD = 50
+const freeShippingThresholdDollars = () => {
+  const raw = getContent()['store.free-shipping-threshold']
+  const v = parseFloat(raw?.en ?? raw?.es ?? '')
+  if (Number.isNaN(v)) return DEFAULT_FREE_SHIPPING_THRESHOLD
+  return v // <= 0 means disabled
+}
 const MOCK = !STRIPE_KEY
 
 let stripe = null
@@ -267,11 +277,19 @@ app.post('/api/checkout', async (req, res) => {
     const allDigital = purchased.every((p) => p.digital)
     const effectiveDelivery = allDigital ? 'digital' : delivery
 
+    // Free shipping over a Brenda-editable subtotal threshold (S2): the
+    // shipping option is chosen server-side — the buyer never picks.
+    const subtotalCents = lineItems.reduce((s, li) => s + li.price_data.unit_amount * li.quantity, 0)
+    const thresholdDollars = freeShippingThresholdDollars()
+    const freeShip =
+      effectiveDelivery === 'ship' &&
+      thresholdDollars > 0 &&
+      subtotalCents >= Math.round(thresholdDollars * 100)
+
     if (MOCK) {
-      const total = lineItems.reduce((s, li) => s + li.price_data.unit_amount * li.quantity, 0)
-      const shipping = effectiveDelivery === 'ship' ? FLAT_SHIPPING_CENTS : 0
+      const shipping = effectiveDelivery === 'ship' && !freeShip ? FLAT_SHIPPING_CENTS : 0
       const params = new URLSearchParams({
-        total: ((total + shipping) / 100).toFixed(2),
+        total: ((subtotalCents + shipping) / 100).toFixed(2),
         delivery: effectiveDelivery,
         items: String(lineItems.reduce((s, li) => s + li.quantity, 0)),
       })
@@ -300,17 +318,29 @@ app.post('/api/checkout', async (req, res) => {
             ]
           : effectiveDelivery === 'ship'
             ? [
-                {
-                  shipping_rate_data: {
-                    type: 'fixed_amount',
-                    fixed_amount: { amount: FLAT_SHIPPING_CENTS, currency: 'usd' },
-                    display_name: 'Flat-rate shipping (US)',
-                    delivery_estimate: {
-                      minimum: { unit: 'business_day', value: 3 },
-                      maximum: { unit: 'business_day', value: 7 },
+                freeShip
+                  ? {
+                      shipping_rate_data: {
+                        type: 'fixed_amount',
+                        fixed_amount: { amount: 0, currency: 'usd' },
+                        display_name: `Free shipping (US) — orders over $${thresholdDollars}`,
+                        delivery_estimate: {
+                          minimum: { unit: 'business_day', value: 3 },
+                          maximum: { unit: 'business_day', value: 7 },
+                        },
+                      },
+                    }
+                  : {
+                      shipping_rate_data: {
+                        type: 'fixed_amount',
+                        fixed_amount: { amount: FLAT_SHIPPING_CENTS, currency: 'usd' },
+                        display_name: 'Flat-rate shipping (US)',
+                        delivery_estimate: {
+                          minimum: { unit: 'business_day', value: 3 },
+                          maximum: { unit: 'business_day', value: 7 },
+                        },
+                      },
                     },
-                  },
-                },
               ]
             : undefined,
       metadata: {
