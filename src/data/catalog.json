@@ -188,7 +188,7 @@
     "variants": [
       {
         "id": "pumpkin",
-        "price": 1.0,
+        "price": 8,
         "photo": "/photos/mini-kit-pumpkin.jpg",
         "label": {
           "en": "Pumpkin 🎃",
