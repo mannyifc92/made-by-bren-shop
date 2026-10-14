@@ -54,7 +54,8 @@ export default function Store() {
     const variant = p.variants ? selectedVariant(p)?.id : undefined
     if (p.variants && !variant) return // should never happen — picker defaults to first
     const key = lineKey({ id: p.id, variant })
-    const withAddon = p.addon && addonSel[p.id] ? p.addon.id : null
+    const withAddon =
+      p.addon && addonSel[p.id] && variant ? p.addon.byVariant[variant] : null
     setCart((c) => {
       const line = c.find((l) => lineKey(l) === key)
       const next = line ? line.qty + 1 : 1

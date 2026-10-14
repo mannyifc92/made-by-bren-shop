@@ -188,7 +188,7 @@
     "variants": [
       {
         "id": "pumpkin",
-        "price": 8,
+        "price": 1.0,
         "photo": "/photos/mini-kit-pumpkin.jpg",
         "label": {
           "en": "Pumpkin 🎃",
@@ -215,7 +215,11 @@
       }
     ],
     "addon": {
-      "id": "mini-kit-instructions",
+      "byVariant": {
+        "pumpkin": "instructions-pumpkin",
+        "mini-ghost": "instructions-ghost",
+        "spooky-duo": "instructions-duo"
+      },
       "label": {
         "en": "Add printable instructions — $1.50",
         "es": "Agrega instrucciones para imprimir — $1.50"
@@ -709,20 +713,54 @@
     ]
   },
   {
-    "id": "mini-kit-instructions",
+    "id": "instructions-pumpkin",
     "price": 1.5,
     "category": "seasonal",
     "personalized": false,
     "digital": true,
     "addonOnly": true,
-    "download": "/downloads/mini-makers-instructions.pdf",
+    "download": "/downloads/instructions-pumpkin.pdf",
     "name": {
-      "en": "Mini Makers Printable Instructions (PDF)",
-      "es": "Instrucciones Mini Makers para imprimir (PDF)"
+      "en": "Mini Makers Instructions — Pumpkin (PDF)",
+      "es": "Instrucciones Mini Makers — Calabaza (PDF)"
     },
     "blurb": {
-      "en": "The step-by-step Mini Makers guide as a printable PDF.",
-      "es": "La guía Mini Makers paso a paso en PDF para imprimir."
+      "en": "Step-by-step printable guide (PDF).",
+      "es": "Guía paso a paso para imprimir (PDF)."
+    }
+  },
+  {
+    "id": "instructions-ghost",
+    "price": 1.5,
+    "category": "seasonal",
+    "personalized": false,
+    "digital": true,
+    "addonOnly": true,
+    "download": "/downloads/instructions-ghost.pdf",
+    "name": {
+      "en": "Mini Makers Instructions — Mini Ghost (PDF)",
+      "es": "Instrucciones Mini Makers — Mini Fantasma (PDF)"
+    },
+    "blurb": {
+      "en": "Step-by-step printable guide (PDF).",
+      "es": "Guía paso a paso para imprimir (PDF)."
+    }
+  },
+  {
+    "id": "instructions-duo",
+    "price": 1.5,
+    "category": "seasonal",
+    "personalized": false,
+    "digital": true,
+    "addonOnly": true,
+    "download": "/downloads/instructions-duo.pdf",
+    "name": {
+      "en": "Mini Makers Instructions — Both Designs (PDF)",
+      "es": "Instrucciones Mini Makers — Ambos Diseños (PDF)"
+    },
+    "blurb": {
+      "en": "Step-by-step printable guide (PDF).",
+      "es": "Guía paso a paso para imprimir (PDF)."
     }
   }
 ]
