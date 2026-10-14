@@ -5,8 +5,13 @@ import { useI18n, LangToggle } from '../i18n'
 
 interface CartLine {
   id: string
+  variant?: string // variant id — required by the server for variant products
   qty: number
 }
+
+// Cart lines are keyed by product + variant so two designs of one product
+// are separate lines; the key matches the server's personalization-notes key.
+const lineKey = (l: { id: string; variant?: string }) => (l.variant ? `${l.id}|${l.variant}` : l.id)
 
 export default function Store() {
   const { t, lang } = useI18n()
@@ -19,6 +24,8 @@ export default function Store() {
   const [working, setWorking] = useState(false)
   const [checkoutError, setCheckoutError] = useState(false)
   const [justAdded, setJustAdded] = useState<string | null>(null)
+  // Selected variant per product card — defaults to the first variant.
+  const [variantSel, setVariantSel] = useState<Record<string, string>>({})
   const products = useProducts()
 
   const visible = useMemo(
@@ -26,29 +33,42 @@ export default function Store() {
     [filter, products],
   )
 
-  const cartCount = cart.reduce((n, l) => n + l.qty, 0)
-  const cartTotal = cart.reduce((sum, l) => {
+  const selectedVariant = (p: Product) =>
+    p.variants?.find((v) => v.id === (variantSel[p.id] ?? p.variants?.[0]?.id))
+
+  const linePrice = (l: CartLine) => {
     const p = products.find((p) => p.id === l.id)
-    return sum + (p ? p.price * l.qty : 0)
-  }, 0)
+    if (!p) return 0
+    const v = p.variants?.find((v) => v.id === l.variant)
+    return (v?.price ?? p.price) * l.qty
+  }
+
+  const cartCount = cart.reduce((n, l) => n + l.qty, 0)
+  const cartTotal = cart.reduce((sum, l) => sum + linePrice(l), 0)
 
   const addToCart = (p: Product) => {
     if (p.stock === 0) return // sold out — the button is disabled; this is defense in depth
+    const variant = p.variants ? selectedVariant(p)?.id : undefined
+    if (p.variants && !variant) return // should never happen — picker defaults to first
+    const key = lineKey({ id: p.id, variant })
     setCart((c) => {
-      const line = c.find((l) => l.id === p.id)
+      const line = c.find((l) => lineKey(l) === key)
       const next = line ? line.qty + 1 : 1
       // Tracked stock caps the quantity you can cart (server re-validates).
       const capped = typeof p.stock === 'number' ? Math.min(next, p.stock) : next
-      return line ? c.map((l) => (l.id === p.id ? { ...l, qty: capped } : l)) : [...c, { id: p.id, qty: 1 }]
+      return line
+        ? c.map((l) => (lineKey(l) === key ? { ...l, qty: capped } : l))
+        : [...c, { id: p.id, variant, qty: 1 }]
     })
     setJustAdded(p.id)
     window.setTimeout(() => setJustAdded((cur) => (cur === p.id ? null : cur)), 1200)
   }
 
-  const setQty = (id: string, qty: number) => {
-    const p = products.find((p) => p.id === id)
+  const setQty = (key: string, qty: number) => {
+    const line = cart.find((l) => lineKey(l) === key)
+    const p = line && products.find((p) => p.id === line.id)
     if (p && typeof p.stock === 'number') qty = Math.min(qty, p.stock)
-    setCart((c) => (qty <= 0 ? c.filter((l) => l.id !== id) : c.map((l) => (l.id === id ? { ...l, qty } : l))))
+    setCart((c) => (qty <= 0 ? c.filter((l) => lineKey(l) !== key) : c.map((l) => (lineKey(l) === key ? { ...l, qty } : l))))
   }
 
   // All-digital carts skip the shipping question entirely (server agrees).
@@ -176,8 +196,8 @@ export default function Store() {
                 }`}
               >
                 <div className="relative">
-                  {p.photo ? (
-                    <img src={asset(p.photo)} alt={p.name[lang]} className="w-full aspect-square object-cover" loading="lazy" />
+                  {(selectedVariant(p)?.photo || p.photo) ? (
+                    <img src={asset(selectedVariant(p)?.photo || p.photo!)} alt={p.name[lang]} className="w-full aspect-square object-cover" loading="lazy" />
                   ) : (
                     <div className="w-full aspect-square bg-accent/30 flex items-center justify-center text-6xl select-none" aria-hidden="true">✨</div>
                   )}
@@ -195,9 +215,23 @@ export default function Store() {
                 <div className="p-5 flex flex-col flex-1">
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-display font-bold text-lg leading-snug">{p.name[lang]}</h3>
-                    <span className="font-black text-lg whitespace-nowrap">{formatPrice(p.price)}</span>
+                    <span className="font-black text-lg whitespace-nowrap">{formatPrice(selectedVariant(p)?.price ?? p.price)}</span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-2 leading-relaxed flex-1">{p.blurb?.[lang]}</p>
+                  {p.variants && (
+                    <select
+                      value={selectedVariant(p)?.id ?? ''}
+                      onChange={(e) => setVariantSel((s) => ({ ...s, [p.id]: e.target.value }))}
+                      className="mt-3 w-full rounded-xl border-2 border-foreground/60 bg-background px-3 py-2 text-sm font-bold"
+                      aria-label={p.name[lang]}
+                    >
+                      {p.variants.map((v) => (
+                        <option key={v.id} value={v.id}>
+                          {v.label[lang]}{typeof v.price === 'number' && v.price !== p.price ? ` — ${formatPrice(v.price)}` : ''}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                   {p.stockNote ? (
                     <p className="text-xs font-bold text-secondary-foreground bg-secondary rounded-lg px-2 py-1 mt-2 inline-block self-start">
                       {p.stockNote[lang]}
@@ -270,21 +304,26 @@ export default function Store() {
               {cart.length === 0 && <p className="text-muted-foreground">{t('store.cart.empty')}</p>}
               {cart.map((l) => {
                 const p = products.find((p) => p.id === l.id)!
+                const v = p.variants?.find((v) => v.id === l.variant)
+                const photo = v?.photo || p.photo
                 return (
-                  <div key={l.id} className="flex gap-4 items-center">
-                    {p.photo ? (
-                      <img src={asset(p.photo)} alt="" className="w-16 h-16 rounded-xl object-cover border-2 border-foreground/60" />
+                  <div key={lineKey(l)} className="flex gap-4 items-center">
+                    {photo ? (
+                      <img src={asset(photo)} alt="" className="w-16 h-16 rounded-xl object-cover border-2 border-foreground/60" />
                     ) : (
                       <div className="w-16 h-16 rounded-xl bg-accent/30 border-2 border-foreground/60 flex items-center justify-center text-2xl select-none" aria-hidden="true">✨</div>
                     )}
                     <div className="flex-1">
-                      <div className="font-bold text-sm leading-snug">{p.name[lang]}</div>
-                      <div className="text-sm text-muted-foreground">{formatPrice(p.price)}</div>
+                      <div className="font-bold text-sm leading-snug">
+                        {p.name[lang]}
+                        {v && <span className="block text-xs font-bold text-muted-foreground">{v.label[lang]}</span>}
+                      </div>
+                      <div className="text-sm text-muted-foreground">{formatPrice(v?.price ?? p.price)}</div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <button onClick={() => setQty(l.id, l.qty - 1)} className="w-7 h-7 rounded-full border-2 border-foreground font-black">−</button>
+                      <button onClick={() => setQty(lineKey(l), l.qty - 1)} className="w-7 h-7 rounded-full border-2 border-foreground font-black">−</button>
                       <span className="w-5 text-center font-bold">{l.qty}</span>
-                      <button onClick={() => setQty(l.id, l.qty + 1)} className="w-7 h-7 rounded-full border-2 border-foreground font-black">+</button>
+                      <button onClick={() => setQty(lineKey(l), l.qty + 1)} className="w-7 h-7 rounded-full border-2 border-foreground font-black">+</button>
                     </div>
                   </div>
                 )
@@ -344,13 +383,13 @@ export default function Store() {
                   .map((l) => {
                     const p = products.find((p) => p.id === l.id)!
                     return (
-                      <div key={l.id} className="mb-3">
+                      <div key={lineKey(l)} className="mb-3">
                         <label className="block text-sm font-bold mb-1">
                           {t('store.personalize-for')} “{p.name[lang]}”
                         </label>
                         <input
-                          value={notes[l.id] ?? ''}
-                          onChange={(e) => setNotes((n) => ({ ...n, [l.id]: e.target.value }))}
+                          value={notes[lineKey(l)] ?? ''}
+                          onChange={(e) => setNotes((n) => ({ ...n, [lineKey(l)]: e.target.value }))}
                           maxLength={200}
                           className="w-full rounded-xl border-2 border-foreground/60 bg-background px-4 py-2.5"
                         />

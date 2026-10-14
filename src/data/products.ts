@@ -8,6 +8,13 @@ export const IS_SHOP = import.meta.env.VITE_SHOP_MODE === 'production'
 
 export type Category = 'bookmarks' | 'keychains' | 'bag-charms' | 'hair-clips' | 'seasonal'
 
+export interface Variant {
+  id: string
+  price?: number // overrides product price
+  photo?: string // overrides product photo when selected
+  label: { en: string; es: string }
+}
+
 export interface Product {
   id: string
   photo?: string // optional — portal-added products may have none yet (placeholder renders)
@@ -15,6 +22,7 @@ export interface Product {
   category: Category
   personalized: boolean
   hidden?: boolean // set by the CoreOps portal — hidden products never render
+  variants?: Variant[] // design/style picker — buyer chooses one before adding
   digital?: boolean // instant download — no shipping question, file delivered on the confirmation page
   stock?: number // tracked inventory (CoreOps §29.8): 0 = sold out, absent = untracked
   stockNote?: { en: string; es: string }
