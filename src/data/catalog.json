@@ -213,7 +213,14 @@
           "es": "Dúo Spooky (ambos kits, $15) 🎃👻"
         }
       }
-    ]
+    ],
+    "addon": {
+      "id": "mini-kit-instructions",
+      "label": {
+        "en": "Add printable instructions — $1.50",
+        "es": "Agrega instrucciones para imprimir — $1.50"
+      }
+    }
   },
   {
     "id": "creeper-keychain",
@@ -700,5 +707,22 @@
         }
       }
     ]
+  },
+  {
+    "id": "mini-kit-instructions",
+    "price": 1.5,
+    "category": "seasonal",
+    "personalized": false,
+    "digital": true,
+    "addonOnly": true,
+    "download": "/downloads/mini-makers-instructions.pdf",
+    "name": {
+      "en": "Mini Makers Printable Instructions (PDF)",
+      "es": "Instrucciones Mini Makers para imprimir (PDF)"
+    },
+    "blurb": {
+      "en": "The step-by-step Mini Makers guide as a printable PDF.",
+      "es": "La guía Mini Makers paso a paso en PDF para imprimir."
+    }
   }
 ]

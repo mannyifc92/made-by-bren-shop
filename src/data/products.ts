@@ -24,6 +24,8 @@ export interface Product {
   hidden?: boolean // set by the CoreOps portal — hidden products never render
   variants?: Variant[] // design/style picker — buyer chooses one before adding
   digital?: boolean // instant download — no shipping question, file delivered on the confirmation page
+  addonOnly?: boolean // never renders as its own card — only added via another product's addon checkbox
+  addon?: { id: string; label: { en: string; es: string } } // optional add-on checkbox on this product's card
   stock?: number // tracked inventory (CoreOps §29.8): 0 = sold out, absent = untracked
   stockNote?: { en: string; es: string }
   name: { en: string; es: string }

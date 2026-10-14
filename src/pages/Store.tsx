@@ -26,10 +26,13 @@ export default function Store() {
   const [justAdded, setJustAdded] = useState<string | null>(null)
   // Selected variant per product card — defaults to the first variant.
   const [variantSel, setVariantSel] = useState<Record<string, string>>({})
+  // Add-on checkbox state per product card.
+  const [addonSel, setAddonSel] = useState<Record<string, boolean>>({})
   const products = useProducts()
 
   const visible = useMemo(
-    () => (filter === 'all' ? products : products.filter((p) => p.category === filter)),
+    // add-on-only products never render as cards (CoreOps §29.13)
+    () => (filter === 'all' ? products : products.filter((p) => p.category === filter)).filter((p) => !p.addonOnly),
     [filter, products],
   )
 
@@ -51,15 +54,22 @@ export default function Store() {
     const variant = p.variants ? selectedVariant(p)?.id : undefined
     if (p.variants && !variant) return // should never happen — picker defaults to first
     const key = lineKey({ id: p.id, variant })
+    const withAddon = p.addon && addonSel[p.id] ? p.addon.id : null
     setCart((c) => {
       const line = c.find((l) => lineKey(l) === key)
       const next = line ? line.qty + 1 : 1
       // Tracked stock caps the quantity you can cart (server re-validates).
       const capped = typeof p.stock === 'number' ? Math.min(next, p.stock) : next
-      return line
+      let updated = line
         ? c.map((l) => (lineKey(l) === key ? { ...l, qty: capped } : l))
         : [...c, { id: p.id, variant, qty: 1 }]
+      // Checked add-ons join the cart as their own line (one per order).
+      if (withAddon && !updated.some((l) => l.id === withAddon)) {
+        updated = [...updated, { id: withAddon, qty: 1 }]
+      }
+      return updated
     })
+    if (withAddon) setAddonSel((s) => ({ ...s, [p.id]: false })) // reset for the next add
     setJustAdded(p.id)
     window.setTimeout(() => setJustAdded((cur) => (cur === p.id ? null : cur)), 1200)
   }
@@ -231,6 +241,17 @@ export default function Store() {
                         </option>
                       ))}
                     </select>
+                  )}
+                  {p.addon && (
+                    <label className="mt-3 flex items-center gap-2 text-sm font-bold cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked={!!addonSel[p.id]}
+                        onChange={(e) => setAddonSel((s) => ({ ...s, [p.id]: e.target.checked }))}
+                        className="w-4 h-4 accent-primary"
+                      />
+                      {p.addon.label[lang]}
+                    </label>
                   )}
                   {p.stockNote ? (
                     <p className="text-xs font-bold text-secondary-foreground bg-secondary rounded-lg px-2 py-1 mt-2 inline-block self-start">
