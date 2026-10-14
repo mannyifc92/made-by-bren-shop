@@ -9,7 +9,7 @@
       "/photos/book-sample-pumpkin.jpg",
       "/photos/book-you-did-it.jpg"
     ],
-    "price": 9.99,
+    "price": 0.99,
     "compareAt": 12.99,
     "category": "digital",
     "digital": true,
@@ -231,13 +231,39 @@
       "es": "Level Up! | Llavero Creeper Personalizado"
     },
     "blurb": {
-      "en": "A handmade Creeper buddy with YOUR name in colorful letter beads — the perfect gift for your favorite gamer! 🎮💚",
-      "es": "Un amiguito Creeper hecho a mano con TU nombre en cuentas de letras — ¡el regalo perfecto para tu gamer favorito! 🎮💚"
+      "en": "A handmade Creeper buddy with YOUR name in colorful letter beads — the perfect gift for your favorite gamer! 🎮💚 Pick the level that matches the letter count of the name.",
+      "es": "Un Creeper hecho a mano con TU nombre en cuentas de letras — el regalo perfecto para tu gamer favorito. 🎮💚 Elige el nivel según la cantidad de letras del nombre."
     },
     "details": {
       "en": "Calling all gamers! 🎮 This handmade pony bead Creeper keychain comes with your name (or your gamer's name) spelled out in colorful letter beads, finished with fun accent beads and a star charm.\n\nStarting at $16 — add the name in the order notes at checkout and Brenda will make it just for you 💚\n\nPerfect for backpacks, keys, or gifting to the Minecraft fan in your life!",
       "es": "¡Llamando a todos los gamers! 🎮 Este llavero Creeper hecho a mano con cuentas viene con tu nombre (o el de tu gamer favorito) en cuentas de letras de colores, terminado con cuentas decorativas y un dije de estrella.\n\nDesde $16 — escribe el nombre en las notas del pedido al pagar y Brenda lo hará especialmente para ti 💚\n\n¡Perfecto para mochilas, llaves o para regalar al fan de Minecraft en tu vida!"
-    }
+    },
+    "variants": [
+      {
+        "id": "level-1",
+        "price": 16,
+        "label": {
+          "en": "Level 1 — 1-6 letters ($16)",
+          "es": "Nivel 1 — 1-6 letras ($16)"
+        }
+      },
+      {
+        "id": "level-2",
+        "price": 18,
+        "label": {
+          "en": "Level 2 — 7-9 letters ($18)",
+          "es": "Nivel 2 — 7-9 letras ($18)"
+        }
+      },
+      {
+        "id": "level-3",
+        "price": 20,
+        "label": {
+          "en": "Level 3 — 10-12 letters ($20)",
+          "es": "Nivel 3 — 10-12 letras ($20)"
+        }
+      }
+    ]
   },
   {
     "id": "lip-butter",
