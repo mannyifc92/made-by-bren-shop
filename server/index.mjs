@@ -198,6 +198,9 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
         if (N8N_WEBHOOK_URL) {
           const payload = {
             session_id: session.id,
+            // Backup delivery: if a buyer loses the confirmation page, Brenda
+            // forwards this link — it reopens the same download page.
+            download_link: `${BASE_URL}/order-success?session_id=${session.id}`,
             items: items.map(({ name, qty }) => ({ name, qty })),
             total: (session.amount_total || 0) / 100,
             currency: session.currency || 'usd',
