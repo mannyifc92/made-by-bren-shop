@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router'
+import { Routes, Route, Navigate } from 'react-router'
 import { I18nProvider } from './i18n'
 import { IS_SHOP } from './data/products'
 import Home from './pages/Home'
@@ -17,6 +17,10 @@ export default function App() {
         <Route path="/quiz/:slug" element={<Quiz />} />
         <Route path="/checkout-preview" element={<CheckoutPreview />} />
         <Route path="/order-success" element={<OrderSuccess />} />
+        {/* Bare /quiz and any unknown URL used to render a blank page —
+            send them home instead. */}
+        <Route path="/quiz" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </I18nProvider>
   )
