@@ -419,6 +419,14 @@ if (existsSync(photosDir)) {
   app.use('/photos', express.static(photosDir))
 }
 
+// Paid digital downloads live on the runtime volume too — never in git or
+// the image (the repo is not a safe place for a sellable PDF). Security is
+// the unguessable filename in the catalog's download field.
+const downloadsDir = process.env.DOWNLOADS_PATH || '/srv/portal-data/downloads'
+if (existsSync(downloadsDir)) {
+  app.use('/downloads', express.static(downloadsDir))
+}
+
 // Serve the built frontend
 const dist = join(__dirname, 'public')
 if (existsSync(dist)) {
