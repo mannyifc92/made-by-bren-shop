@@ -51,6 +51,10 @@ export default function Store() {
     setCart((c) => (qty <= 0 ? c.filter((l) => l.id !== id) : c.map((l) => (l.id === id ? { ...l, qty } : l))))
   }
 
+  // All-digital carts skip the shipping question entirely (server agrees).
+  const allDigital =
+    cart.length > 0 && cart.every((l) => products.find((p) => p.id === l.id)?.digital)
+
   const startCheckout = async () => {
     setWorking(true)
     setCheckoutError(false)
@@ -58,7 +62,7 @@ export default function Store() {
       const res = await fetch(`${import.meta.env.BASE_URL}api/checkout`.replace(/\/\/api/, '/api'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lines: cart, delivery, notes }),
+        body: JSON.stringify({ lines: cart, delivery: allDigital ? 'digital' : delivery, notes }),
       })
       if (!res.ok) throw new Error(String(res.status))
       const { url } = await res.json()
@@ -314,6 +318,10 @@ export default function Store() {
           <div className="relative bg-card rounded-3xl border-2 border-foreground max-w-md w-full p-8 max-h-[90vh] overflow-y-auto">
             <h2 className="font-display text-2xl font-black mb-5">{t('store.delivery')}</h2>
 
+            {allDigital ? (
+              // Downloads don't ship — say what happens instead of asking.
+              <p className="mb-6 text-sm font-bold text-muted-foreground">{t('store.delivery.digital')}</p>
+            ) : (
             <div className="flex flex-col gap-3 mb-6">
               {(['ship', 'pickup'] as const).map((d) => (
                 <button
@@ -327,6 +335,7 @@ export default function Store() {
                 </button>
               ))}
             </div>
+            )}
 
             {cart.some((l) => products.find((p) => p.id === l.id)?.personalized) && (
               <div className="mb-6">
@@ -360,7 +369,7 @@ export default function Store() {
                 (store.free-shipping-threshold, dollars; 0 = off). */}
             {(() => {
               const threshold = parseFloat(t('store.free-shipping-threshold'))
-              if (!threshold || threshold <= 0 || delivery !== 'ship') return null
+              if (!threshold || threshold <= 0 || delivery !== 'ship' || allDigital) return null
               const remaining = threshold - cartTotal
               return (
                 <p className={`text-xs font-bold mb-5 ${remaining <= 0 ? 'text-primary' : 'text-muted-foreground'}`}>

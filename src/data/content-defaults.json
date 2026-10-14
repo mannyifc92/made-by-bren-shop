@@ -85,7 +85,8 @@
     "store.success.body": "Your order is in. Brenda gets an email with everything she needs — including any names to personalize — and she'll start making it with love.",
     "announcement.text": "",
     "store.hero.photo": "/photos/hero-name-keychains.jpg",
-    "store.free-shipping-threshold": "50"
+    "store.free-shipping-threshold": "50",
+    "store.delivery.digital": "Instant download — nothing to ship."
   },
   "es": {
     "brand.tag": "Cositas felices hechas a mano ✨",
@@ -173,6 +174,7 @@
     "store.success.body": "Tu pedido ya está. Brenda recibe un email con todo lo que necesita — incluidos los nombres para personalizar — y empieza a hacerlo con amor.",
     "announcement.text": "",
     "store.hero.photo": "/photos/hero-name-keychains.jpg",
-    "store.free-shipping-threshold": "50"
+    "store.free-shipping-threshold": "50",
+    "store.delivery.digital": "Descarga instantánea — nada que enviar."
   }
 }
