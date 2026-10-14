@@ -227,7 +227,7 @@ export default function Store() {
                     >
                       {p.variants.map((v) => (
                         <option key={v.id} value={v.id}>
-                          {v.label[lang]}{typeof v.price === 'number' && v.price !== p.price ? ` — ${formatPrice(v.price)}` : ''}
+                          {v.label[lang]} — {formatPrice(v.price ?? p.price)}
                         </option>
                       ))}
                     </select>
