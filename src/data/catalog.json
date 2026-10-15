@@ -182,13 +182,13 @@
       "es": "Todo lo que necesitas para crear tu propio amiguito spooky — cuentas, materiales y video tutorial con código QR. ¡Ideal para niños y noches de manualidades! 🎃👻"
     },
     "details": {
-      "en": "Become a Mini Maker! 🎃 Each kit comes with everything you need to make your own pony bead creation — all the beads and supplies, plus a QR code that links to a video tutorial so you can follow along step by step.\n\nChoose the Pumpkin kit 🎃, the Mini Ghost kit 👻, or get the Spooky Duo (both kits) for $15!\n\nPerfect for Halloween craft nights, party activities, or a cozy afternoon of family fun 💕",
-      "es": "¡Conviértete en Mini Maker! 🎃 Cada kit incluye todo lo que necesitas para crear tu propia figura de cuentas — todas las cuentas y materiales, además de un código QR con video tutorial para seguir paso a paso.\n\n¡Elige el kit de Calabaza 🎃, el kit de Mini Fantasma 👻, o llévate el Dúo Spooky (ambos kits) por $15!\n\nPerfecto para noches de manualidades, actividades de fiesta o una tarde de diversión en familia 💕"
+      "en": "Mini Makers DIY Pony Bead Kits – Halloween Edition 🎃👻\n\nCalling all little monsters, crafty witches, and Halloween lovers! 🧙‍♀️✨\n\nIt's time to get your SPOOK on with our Mini Makers DIY Pony Bead Kits! Whether you're bringing a happy little pumpkin to life or creating the cutest little ghost in town, these kits are packed with frightfully fun crafting magic!\n\nNo tricks here, just treats! 🍬 Each kit comes with everything you need to create your very own spooky-cute pony bead keychain.\n\nSimply scan the QR code, follow along with our step-by-step video tutorial, and watch your little Halloween creation come to life. It's scary how much fun you'll have! 👻\n\n🎃 What's Included:\n- Pre-counted pony beads\n- Pre-cut string\n- Keychain hardware\n- QR code linking to our Instagram video tutorial\n- A whole lot of BOO-tiful creative fun!\n\n👻 Pick Your Spooky Little Friend:\n- 🎃 Happy Pumpkin – A little pumpkin with a whole lot of personality!\n- 👻 Mini Ghost – Too cute to spook!\n\n📖 Want a Little Extra Crafting Magic? (+$1.50)\nNo need to be scared of missing a step! 👻\n\nAdd our digital step-by-step written instructions for just $1.50 per design!\nPerfect for little monsters who prefer to craft at their own pace, or anyone who wants a little extra guidance along the way.\n\n🎃 A little treat for you: Written instructions only need to be purchased ONCE per design! Making a whole pumpkin patch or a little ghost gang? Simply save your PDF and use it again and again. No need to purchase multiple copies of the same design!\n\nDigital instructions will be delivered electronically. No physical instructions will be shipped.\n\n🧡 Why You'll Love It:\n\nPerfect for Halloween parties, spooky movie nights, classroom activities, creative afternoons, or a little BOO-tiful handmade gift! No need to go hunting for supplies. We've done all the prep work so you can skip straight to the spooky fun!\n\n🕸️ Please Note:\n- This is a DIY craft kit, not a finished keychain.\n- Recommended for ages 5+ with adult supervision.\n- Contains small parts that may pose a choking hazard.\n- Bead colors and keychain hardware may vary slightly.\n- Every kit includes FREE access to its Instagram video tutorial through the provided QR code.\n- Digital written instructions are optional and sold separately.\n- Digital instructions are for personal use only and may not be shared, reproduced, or resold.",
+      "es": "Mini Makers Kits de Pony Beads – Edición Halloween 🎃👻\n\n¡Llamando a todos los pequeños monstruos, brujitas creativas y amantes de Halloween! 🧙‍♀️✨\n\n¡Es hora de dar MIEDO con nuestros Mini Makers Kits de Pony Beads! Ya sea dándole vida a una calabacita feliz o al fantasmita más tierno del pueblo, estos kits están llenos de magia espeluznante y divertida.\n\n¡Nada de trucos, solo dulces! 🍬 Cada kit incluye todo lo necesario para crear tu propio llavero de pony beads súper cute.\n\nSolo escanea el código QR, sigue nuestro video tutorial paso a paso y mira cómo tu creación de Halloween cobra vida. ¡Es de miedo lo divertido que es! 👻\n\n🎃 Qué incluye:\n- Pony beads pre-contados\n- Hilo pre-cortado\n- Herrajes para llavero\n- Código QR con enlace a nuestro video tutorial de Instagram\n- ¡Un montón de diversión BOO-nita!\n\n👻 Elige tu amiguito spooky:\n- 🎃 Calabaza Feliz – ¡Una calabacita con muchísima personalidad!\n- 👻 Mini Fantasma – ¡Demasiado tierno para dar miedo!\n\n📖 ¿Quieres un poco más de magia? (+$1.50)\n¡No tengas miedo de perderte un paso! 👻\n\n¡Agrega nuestras instrucciones digitales escritas paso a paso por solo $1.50 por diseño!\nPerfectas para pequeños monstruos que prefieren crear a su propio ritmo, o para cualquiera que quiera una guía extra.\n\n🎃 Un regalito para ti: ¡Las instrucciones escritas solo se compran UNA vez por diseño! ¿Haciendo toda una cosecha de calabazas o una pandilla de fantasmas? Simplemente guarda tu PDF y úsalo una y otra vez.\n\nLas instrucciones digitales se entregan electrónicamente. No se envían instrucciones físicas.\n\n🧡 Por qué te encantará:\n\nPerfecto para fiestas de Halloween, noches de películas de miedo, actividades escolares, tardes creativas o un regalito hecho a mano. No necesitas buscar materiales — nosotros hicimos toda la preparación para que vayas directo a la diversión.\n\n🕸️ Ten en cuenta:\n- Este es un kit de manualidades DIY, no un llavero terminado.\n- Recomendado para mayores de 5 años con supervisión de un adulto.\n- Contiene partes pequeñas que pueden ser peligro de asfixia.\n- Los colores de las cuentas y los herrajes pueden variar ligeramente.\n- Cada kit incluye acceso GRATIS a su video tutorial de Instagram mediante el código QR.\n- Las instrucciones escritas digitales son opcionales y se venden por separado.\n- Las instrucciones digitales son solo para uso personal y no pueden compartirse, reproducirse ni revenderse."
     },
     "variants": [
       {
         "id": "pumpkin",
-        "price": 8,
+        "price": 8.0,
         "photo": "/photos/mini-kit-pumpkin.jpg",
         "label": {
           "en": "Pumpkin 🎃",
@@ -197,7 +197,7 @@
       },
       {
         "id": "mini-ghost",
-        "price": 8,
+        "price": 8.0,
         "photo": "/photos/mini-kit-ghost.jpg",
         "label": {
           "en": "Mini Ghost 👻",
@@ -206,7 +206,7 @@
       },
       {
         "id": "spooky-duo",
-        "price": 15,
+        "price": 15.0,
         "photo": "/photos/mini-kit-duo.jpg",
         "label": {
           "en": "Spooky Duo (both kits, $15) 🎃👻",
