@@ -32,6 +32,7 @@ export interface Product {
   stockNote?: { en: string; es: string }
   name: { en: string; es: string }
   blurb?: { en: string; es: string }
+  details?: { en: string; es: string } // long description — shown in the "Read more" popup
   igPost?: string
 }
 

@@ -28,6 +28,8 @@ export default function Store() {
   const [variantSel, setVariantSel] = useState<Record<string, string>>({})
   // Add-on checkbox state per product card.
   const [addonSel, setAddonSel] = useState<Record<string, boolean>>({})
+  // "Read more" popup — the product id whose full description is open.
+  const [detailsFor, setDetailsFor] = useState<string | null>(null)
   const products = useProducts()
 
   const visible = useMemo(
@@ -229,6 +231,14 @@ export default function Store() {
                     <span className="font-black text-lg whitespace-nowrap">{formatPrice(selectedVariant(p)?.price ?? p.price)}</span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-2 leading-relaxed flex-1">{p.blurb?.[lang]}</p>
+                  {p.details?.[lang] && (
+                    <button
+                      onClick={() => setDetailsFor(p.id)}
+                      className="mt-2 self-start text-sm font-bold text-primary underline underline-offset-4 hover:no-underline"
+                    >
+                      {t('store.readmore')} →
+                    </button>
+                  )}
                   {p.variants && (
                     <select
                       value={selectedVariant(p)?.id ?? ''}
@@ -310,6 +320,28 @@ export default function Store() {
           @madeby_bren
         </a>
       </footer>
+
+      {/* "Read more" popup — full product description (details from the catalog) */}
+      {detailsFor && (() => {
+        const p = products.find((p) => p.id === detailsFor)
+        if (!p) return null
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="absolute inset-0 bg-foreground/40" onClick={() => setDetailsFor(null)} />
+            <div className="relative bg-card rounded-3xl border-2 border-foreground max-w-lg w-full p-8 max-h-[90vh] overflow-y-auto">
+              <button onClick={() => setDetailsFor(null)} className="absolute top-4 right-5 text-2xl font-black hover:rotate-90 transition-transform" aria-label="Close">
+                ×
+              </button>
+              {p.photo && (
+                <img src={asset(p.photo)} alt={p.name[lang]} className="w-40 h-40 rounded-2xl object-cover border-2 border-foreground/60 mx-auto" />
+              )}
+              <h2 className="font-display text-2xl font-black mt-4 text-center">{p.name[lang]}</h2>
+              <p className="text-center font-black text-lg">{formatPrice(p.price)}</p>
+              <p className="mt-4 text-muted-foreground leading-relaxed whitespace-pre-line">{p.details?.[lang]}</p>
+            </div>
+          </div>
+        )
+      })()}
 
       {/* Cart drawer */}
       {cartOpen && (
