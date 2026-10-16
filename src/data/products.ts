@@ -19,6 +19,7 @@ export interface Product {
   id: string
   photo?: string // optional — portal-added products may have none yet (placeholder renders)
   price: number // display price — the server is the source of truth at checkout
+  compareAt?: number // crossed-out "regular" price shown next to price when higher (launch discounts)
   category: Category
   personalized: boolean
   hidden?: boolean // set by the CoreOps portal — hidden products never render

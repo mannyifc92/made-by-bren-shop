@@ -228,7 +228,12 @@ export default function Store() {
                 <div className="p-5 flex flex-col flex-1">
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-display font-bold text-lg leading-snug">{p.name[lang]}</h3>
-                    <span className="font-black text-lg whitespace-nowrap">{formatPrice(selectedVariant(p)?.price ?? p.price)}</span>
+                    <span className="font-black text-lg whitespace-nowrap">
+                      {p.compareAt != null && p.compareAt > (selectedVariant(p)?.price ?? p.price) && (
+                        <del className="mr-2 text-sm font-bold text-muted-foreground">{formatPrice(p.compareAt)}</del>
+                      )}
+                      {formatPrice(selectedVariant(p)?.price ?? p.price)}
+                    </span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-2 leading-relaxed flex-1">{p.blurb?.[lang]}</p>
                   {p.details?.[lang] && (

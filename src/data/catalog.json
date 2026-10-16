@@ -9,7 +9,7 @@
       "/photos/book-sample-pumpkin.jpg",
       "/photos/book-you-did-it.jpg"
     ],
-    "price": 0.99,
+    "price": 9.99,
     "compareAt": 12.99,
     "category": "digital",
     "digital": true,
@@ -188,7 +188,7 @@
     "variants": [
       {
         "id": "pumpkin",
-        "price": 8,
+        "price": 8.0,
         "photo": "/photos/mini-kit-pumpkin.jpg",
         "label": {
           "en": "Pumpkin 🎃",
