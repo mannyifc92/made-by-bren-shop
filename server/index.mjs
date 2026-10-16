@@ -71,7 +71,51 @@ const loadProcessed = () => {
   }
 }
 const LOW_STOCK_THRESHOLD = Number(process.env.LOW_STOCK_THRESHOLD || 2)
-const DISCORD_ALERT_WEBHOOK_URL = process.env.DISCORD_ALERT_WEBHOOK_URL || ''
+// Low-stock delivery (CoreOps I2): Discord operator channel via the same bot
+// as order pings (no webhook to configure), plus an email to Brenda via
+// Resend. Both fire-and-forget: alerting must never fail the order path.
+const RESEND_API_KEY = process.env.RESEND_API_KEY || ''
+const ALERT_EMAIL_TO = process.env.ALERT_EMAIL_TO || ''
+const ALERT_EMAIL_FROM = process.env.ALERT_EMAIL_FROM || 'Made by Bren <shop-alerts@coreopsholdings.com>'
+const notifyLowStock = (lowStock, sessionId) => {
+  if (!lowStock.length) return
+  const lines = lowStock.map((l) => `• ${l.name}: ${l.left} left`)
+  if (DISCORD_BOT_TOKEN && DISCORD_CHANNEL_ID) {
+    fetch(`https://discord.com/api/v10/channels/${DISCORD_CHANNEL_ID}/messages`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', authorization: `Bot ${DISCORD_BOT_TOKEN}` },
+      body: JSON.stringify({
+        content: `🧵 **Made by Bren — low stock** (order ${sessionId})\n${lines.join('\n')}\nTime to make more or restock in the portal.`,
+      }),
+      signal: AbortSignal.timeout(5000),
+    }).catch((err) => console.error('discord low-stock alert failed:', err.message))
+  }
+  if (RESEND_API_KEY && ALERT_EMAIL_TO) {
+    const text = [
+      'Hi Brenda,',
+      '',
+      'These products are running low (2 or fewer left):',
+      '',
+      ...lines,
+      '',
+      'Time to make more. You can update the stock count in your portal:',
+      'https://portal.coreopsholdings.com/',
+      '',
+      '— Your Made by Bren shop (automatic message)',
+    ].join('\n')
+    fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: ALERT_EMAIL_FROM,
+        to: [ALERT_EMAIL_TO],
+        subject: `Low stock: ${lowStock.map((l) => l.name).join(', ')}`.slice(0, 150),
+        text,
+      }),
+      signal: AbortSignal.timeout(5000),
+    }).catch((err) => console.error('email low-stock alert failed:', err.message))
+  }
+}
 const decrementStock = (sessionId, items) => {
   const processed = loadProcessed()
   if (processed[sessionId]) return false
@@ -99,17 +143,7 @@ const decrementStock = (sessionId, items) => {
   processed[sessionId] = new Date().toISOString()
   writeJsonAtomic(PROCESSED_PATH, processed)
   // Fire-and-forget: alerting must never fail the order path.
-  if (lowStock.length && DISCORD_ALERT_WEBHOOK_URL) {
-    const lines = lowStock.map((l) => `• ${l.name}: ${l.left} left`).join('\n')
-    fetch(DISCORD_ALERT_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        content: `🧵 **Made by Bren — low stock** (order ${sessionId})\n${lines}\nTime to make more or restock in the portal.`,
-      }),
-      signal: AbortSignal.timeout(5000),
-    }).catch((err) => console.error('low-stock alert failed:', err.message))
-  }
+  notifyLowStock(lowStock, sessionId)
   return true
 }
 
@@ -169,6 +203,27 @@ const app = express()
 // (order-lookup keeps its call as the idempotent fallback, §29.8).
 const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || ''
 const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL || ''
+// Operator-channel order ping, posted straight from the shop: the shop is
+// host-networked and reaches Discord fine, while bridge-networked containers
+// on Marvin can't (broken outbound NAT — same reason this container runs
+// --network host). Fire-and-forget, same discipline as the n8n leg.
+const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN || ''
+const DISCORD_CHANNEL_ID = process.env.DISCORD_CHANNEL_ID || ''
+const notifyDiscordOrder = (payload) => {
+  if (!DISCORD_BOT_TOKEN || !DISCORD_CHANNEL_ID) return
+  const lines = ['🛍️ **New order — Made by Bren**', '']
+  for (const item of payload.items) lines.push(`• ${item.qty}× ${item.name}`)
+  lines.push(`**Total:** $${Number(payload.total).toFixed(2)} ${String(payload.currency || 'usd').toUpperCase()}`)
+  if (payload.delivery) lines.push(`**Delivery:** ${payload.delivery}`)
+  if (payload.personalization) lines.push(`**Personalization:** ${payload.personalization}`)
+  if (payload.download_link) lines.push(`**Confirmation:** ${payload.download_link}`)
+  fetch(`https://discord.com/api/v10/channels/${DISCORD_CHANNEL_ID}/messages`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', authorization: `Bot ${DISCORD_BOT_TOKEN}` },
+    body: JSON.stringify({ content: lines.join('\n').slice(0, 1900) }),
+    signal: AbortSignal.timeout(5000),
+  }).catch((err) => console.error('discord order notify failed:', err.message))
+}
 app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   if (MOCK || !WEBHOOK_SECRET) return res.status(400).json({ error: 'webhook not configured' })
   let event
@@ -191,28 +246,32 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
             qty: li.quantity || 1,
           }))
           .filter((l) => l.id)
-        decrementStock(session.id, items)
+        const isNew = decrementStock(session.id, items)
         // Fire-and-forget: a notification failure must never fail Stripe's
         // webhook (Stripe retries on non-2xx and we'd double-decrement risk
         // is covered by idempotency, but noise is avoidable).
-        if (N8N_WEBHOOK_URL) {
-          const payload = {
-            session_id: session.id,
-            // Backup delivery: if a buyer loses the confirmation page, Brenda
-            // forwards this link — it reopens the same download page.
-            download_link: `${BASE_URL}/order-success?session_id=${session.id}`,
-            items: items.map(({ name, qty }) => ({ name, qty })),
-            total: (session.amount_total || 0) / 100,
-            currency: session.currency || 'usd',
-            delivery: session.metadata?.delivery || '',
-            personalization: session.metadata?.personalization || '',
+        const payload = {
+          session_id: session.id,
+          // Backup delivery: if a buyer loses the confirmation page, Brenda
+          // forwards this link — it reopens the same download page.
+          download_link: `${BASE_URL}/order-success?session_id=${session.id}`,
+          items: items.map(({ name, qty }) => ({ name, qty })),
+          total: (session.amount_total || 0) / 100,
+          currency: session.currency || 'usd',
+          delivery: session.metadata?.delivery || '',
+          personalization: session.metadata?.personalization || '',
+        }
+        // Notify once per paid order, whichever path processed it first.
+        if (isNew) {
+          if (N8N_WEBHOOK_URL) {
+            fetch(N8N_WEBHOOK_URL, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify(payload),
+              signal: AbortSignal.timeout(5000),
+            }).catch((err) => console.error('n8n notify failed:', err.message))
           }
-          fetch(N8N_WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify(payload),
-            signal: AbortSignal.timeout(5000),
-          }).catch((err) => console.error('n8n notify failed:', err.message))
+          notifyDiscordOrder(payload)
         }
       }
     } catch (err) {
@@ -384,7 +443,24 @@ app.get('/api/order-lookup', async (req, res) => {
       }))
       .filter((l) => l.id)
     // Stock goes down exactly once per paid order (idempotent by session id).
-    decrementStock(sessionId, ids)
+    const isNew = decrementStock(sessionId, ids)
+    if (isNew) {
+      // Success-page fallback processed the order before the webhook arrived
+      // (or the webhook is unconfigured) — same single notify as the webhook.
+      const catalog = getCatalog()
+      notifyDiscordOrder({
+        session_id: session.id,
+        download_link: `${BASE_URL}/order-success?session_id=${session.id}`,
+        items: ids.map((l) => {
+          const p = catalog.find((x) => x.id === l.id)
+          return { name: p?.name?.en || l.id, qty: l.qty }
+        }),
+        total: (session.amount_total || 0) / 100,
+        currency: session.currency || 'usd',
+        delivery: session.metadata?.delivery || '',
+        personalization: session.metadata?.personalization || '',
+      })
+    }
     const downloads = digitalDownloads(getCatalog().filter((p) => ids.some((l) => l.id === p.id)))
     res.json({ downloads })
   } catch (err) {
