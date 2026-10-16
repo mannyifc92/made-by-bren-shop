@@ -230,7 +230,10 @@ export default function Store() {
                     <h3 className="font-display font-bold text-lg leading-snug">{p.name[lang]}</h3>
                     <span className="font-black text-lg whitespace-nowrap">
                       {p.compareAt != null && p.compareAt > (selectedVariant(p)?.price ?? p.price) && (
-                        <del className="mr-2 text-sm font-bold text-muted-foreground">{formatPrice(p.compareAt)}</del>
+                        <>
+                          <del className="mr-2 text-sm font-bold text-muted-foreground">{formatPrice(p.compareAt)}</del>
+                          <span className="sticker bg-primary text-primary-foreground !text-[10px] mr-2 align-middle">{t('store.launchprice')}</span>
+                        </>
                       )}
                       {formatPrice(selectedVariant(p)?.price ?? p.price)}
                     </span>
