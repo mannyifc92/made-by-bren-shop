@@ -224,6 +224,47 @@ const notifyDiscordOrder = (payload) => {
     signal: AbortSignal.timeout(5000),
   }).catch((err) => console.error('discord order notify failed:', err.message))
 }
+// New-order email to Brenda via Resend — same fire-and-forget discipline.
+const notifyEmailOrder = (payload) => {
+  if (!RESEND_API_KEY || !ALERT_EMAIL_TO) return
+  const itemLines = payload.items.map((i) => `• ${i.qty}× ${i.name}`)
+  const text = [
+    'Hi Brenda,',
+    '',
+    'You have a new order:',
+    '',
+    ...itemLines,
+    '',
+    `Total: $${Number(payload.total).toFixed(2)} ${String(payload.currency || 'usd').toUpperCase()}`,
+    ...(payload.delivery ? [`Delivery: ${payload.delivery}`] : []),
+    ...(payload.personalization ? [`Personalization: ${payload.personalization}`] : []),
+    ...(payload.address ? ['', 'Ship to:', payload.address] : []),
+    ...(payload.download_link
+      ? ['', `If the buyer needs their download link again, send them this: ${payload.download_link}`]
+      : []),
+    '',
+    '— Your Made by Bren shop (automatic message)',
+  ].join('\n')
+  fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', authorization: `Bearer ${RESEND_API_KEY}` },
+    body: JSON.stringify({
+      from: ALERT_EMAIL_FROM,
+      to: [ALERT_EMAIL_TO],
+      subject: `New order: ${payload.items.map((i) => `${i.qty}× ${i.name}`).join(', ')} — $${Number(payload.total).toFixed(2)}`.slice(0, 150),
+      text,
+    }),
+    signal: AbortSignal.timeout(5000),
+  }).catch((err) => console.error('email order notify failed:', err.message))
+}
+const stripeAddress = (session) => {
+  const a = session.shipping_details?.address || session.customer_details?.address
+  if (!a) return ''
+  const name = session.shipping_details?.name || session.customer_details?.name || ''
+  return [name, a.line1, a.line2, [a.city, a.state, a.postal_code].filter(Boolean).join(', '), a.country]
+    .filter(Boolean)
+    .join('\n')
+}
 app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   if (MOCK || !WEBHOOK_SECRET) return res.status(400).json({ error: 'webhook not configured' })
   let event
@@ -260,6 +301,7 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
           currency: session.currency || 'usd',
           delivery: session.metadata?.delivery || '',
           personalization: session.metadata?.personalization || '',
+          address: stripeAddress(session),
         }
         // Notify once per paid order, whichever path processed it first.
         if (isNew) {
@@ -272,6 +314,7 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
             }).catch((err) => console.error('n8n notify failed:', err.message))
           }
           notifyDiscordOrder(payload)
+          notifyEmailOrder(payload)
         }
       }
     } catch (err) {
@@ -448,7 +491,7 @@ app.get('/api/order-lookup', async (req, res) => {
       // Success-page fallback processed the order before the webhook arrived
       // (or the webhook is unconfigured) — same single notify as the webhook.
       const catalog = getCatalog()
-      notifyDiscordOrder({
+      const payload = {
         session_id: session.id,
         download_link: `${BASE_URL}/order-success?session_id=${session.id}`,
         items: ids.map((l) => {
@@ -459,7 +502,10 @@ app.get('/api/order-lookup', async (req, res) => {
         currency: session.currency || 'usd',
         delivery: session.metadata?.delivery || '',
         personalization: session.metadata?.personalization || '',
-      })
+        address: stripeAddress(session),
+      }
+      notifyDiscordOrder(payload)
+      notifyEmailOrder(payload)
     }
     const downloads = digitalDownloads(getCatalog().filter((p) => ids.some((l) => l.id === p.id)))
     res.json({ downloads })
